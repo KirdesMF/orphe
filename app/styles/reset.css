@@ -71,3 +71,8 @@ select {
     scroll-behavior: auto !important;
   }
 }
+
+button {
+  background-color: unset;
+  border: none;
+}

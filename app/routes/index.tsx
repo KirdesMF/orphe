@@ -3,6 +3,8 @@ import { supabase } from '~/utils/supabase.server';
 
 import type { LoaderFunction } from 'remix';
 import type { Song } from '~/models/song';
+import { CustomPlayer } from '~/components/custom-player';
+import { useState } from 'react';
 
 export const loader: LoaderFunction = async () => {
   const { data: songs, error } = await supabase.from('Song').select('*');
@@ -12,6 +14,7 @@ export const loader: LoaderFunction = async () => {
 
 export default function Index() {
   const datas = useLoaderData<Array<Song>>();
+  const [currentSong, setCurrentSong] = useState(0);
 
   return (
     <div className="grid gap-10 text-base">
@@ -20,7 +23,12 @@ export default function Index() {
       {datas.map((song) => (
         <div key={song.id}>
           <p>{song.title}</p>
-          <audio src={song.source} controls></audio>
+          <CustomPlayer
+            id={song.id}
+            src={song.source}
+            currentSong={currentSong}
+            setCurrentSong={setCurrentSong}
+          />
         </div>
       ))}
     </div>
