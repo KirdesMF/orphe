@@ -5,6 +5,7 @@ import type { LoaderFunction } from 'remix';
 import type { Song } from '~/models/song';
 import { CustomPlayer } from '~/components/custom-player';
 import { useState } from 'react';
+import { CountDown } from '~/components/countdown';
 
 export const loader: LoaderFunction = async () => {
   const { data: songs, error } = await supabase.from('Song').select('*');
@@ -19,6 +20,7 @@ export default function Index() {
   return (
     <div className="grid gap-10 text-base">
       <Link to="/dashboard">Dashboard</Link>
+      <CountDown targetDate="03-29-2022" />
       <h1>Orphe</h1>
       {datas.map((song) => (
         <div key={song.id}>
