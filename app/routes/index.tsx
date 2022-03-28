@@ -1,4 +1,4 @@
-import { json, useLoaderData } from 'remix';
+import { json, Link, useLoaderData } from 'remix';
 import { supabase } from '~/utils/supabase.server';
 
 import type { LoaderFunction } from 'remix';
@@ -15,9 +15,13 @@ export default function Index() {
 
   return (
     <div className="grid gap-10 text-base">
-      <h1>Welcome to Vercel Beau gosse ok</h1>
+      <Link to="/dashboard">Dashboard</Link>
+      <h1>Orphe</h1>
       {datas.map((song) => (
-        <div key={song.id}>{song.title}</div>
+        <div key={song.id}>
+          <p>{song.title}</p>
+          <audio src={song.source} controls></audio>
+        </div>
       ))}
     </div>
   );
