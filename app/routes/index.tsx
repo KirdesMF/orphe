@@ -20,7 +20,7 @@ export default function Index() {
   return (
     <main className="bg-black text-white font-sans">
       <section className="max-w-3xl mx-auto min-h-[100vh] grid place-items-center">
-        <CountDown targetDate="03-29-2022" />
+        <CountDown targetDate="03/30/2022" />
       </section>
 
       <section className="max-w-3xl mx-auto min-h-[100vh] grid place-items-center">
