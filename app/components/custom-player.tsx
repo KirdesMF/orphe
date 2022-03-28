@@ -76,7 +76,7 @@ export function CustomPlayer(props: Props) {
   };
 
   return (
-    <div className="grid gap-2 max-w-md">
+    <div className="flex gap-2 max-w-md">
       <audio
         ref={audioRef}
         src={src}
@@ -84,37 +84,45 @@ export function CustomPlayer(props: Props) {
         onLoadedMetadata={handleDuration}
       />
 
-      <span id="current-time">{formatTime(currentTime)}</span>
-      <span id="duration-time">{formatTime(duration)}</span>
+      <p id="current-time">
+        <span>{formatTime(currentTime)} - </span>
+        <span>{formatTime(duration)}</span>
+      </p>
 
-      <button id={id.toString()} onClick={togglePlay} className="color-blue">
-        {isPlaying ? <PauseSVG /> : <PlaySVG />}
-      </button>
+      <div className="flex">
+        <button
+          id={id.toString()}
+          onClick={togglePlay}
+          className="color-blue flex items-center"
+        >
+          {isPlaying ? <PauseSVG /> : <PlaySVG />}
+        </button>
+        <button onClick={handleStop} className="color-red flex items-center">
+          <StopSVG />
+        </button>
+        <input
+          id="seek-slider"
+          type="range"
+          min="0"
+          max={duration}
+          value={currentTime}
+          onChange={handleSeek}
+        />
+      </div>
 
-      <button onClick={handleStop} className="color-red">
-        <StopSVG />
-      </button>
-
-      <input
-        id="seek-slider"
-        type="range"
-        min="0"
-        max={duration}
-        value={currentTime}
-        onChange={handleSeek}
-      />
-
-      <input
-        id="volume-slider"
-        type="range"
-        min="0"
-        max="100"
-        value={volume}
-        onChange={handleVolume}
-      />
-
-      <output>Volume: {volume}</output>
-      <button onClick={handleMute}>{isMuted ? <Mute /> : <Sound />}</button>
+      <div className="flex">
+        <button onClick={handleMute} className="flex items-center">
+          {isMuted ? <Mute /> : <Sound />}
+        </button>
+        <input
+          id="volume-slider"
+          type="range"
+          min="0"
+          max="100"
+          value={volume}
+          onChange={handleVolume}
+        />
+      </div>
     </div>
   );
 }
