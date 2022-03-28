@@ -84,7 +84,7 @@ export function CustomPlayer(props: Props) {
         onLoadedMetadata={handleDuration}
       />
 
-      <p id="current-time">
+      <p className="text-sm">
         <span>{formatTime(currentTime)} - </span>
         <span>{formatTime(duration)}</span>
       </p>
@@ -111,7 +111,7 @@ export function CustomPlayer(props: Props) {
       </div>
 
       <div className="flex">
-        <button onClick={handleMute} className="flex items-center">
+        <button onClick={handleMute} className="flex items-center text-amber">
           {isMuted ? <Mute /> : <Sound />}
         </button>
         <input

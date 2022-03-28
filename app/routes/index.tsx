@@ -1,4 +1,4 @@
-import { json, Link, useLoaderData } from 'remix';
+import { json, useLoaderData } from 'remix';
 import { supabase } from '~/utils/supabase.server';
 
 import type { LoaderFunction } from 'remix';
@@ -8,7 +8,7 @@ import { useState } from 'react';
 import { CountDown } from '~/components/countdown';
 
 export const loader: LoaderFunction = async () => {
-  const { data: songs, error } = await supabase.from('Song').select('*');
+  const { data: songs } = await supabase.from('Song').select('*');
 
   return json(songs);
 };
@@ -18,21 +18,29 @@ export default function Index() {
   const [currentSong, setCurrentSong] = useState(0);
 
   return (
-    <div className="grid gap-10 text-base">
-      <Link to="/dashboard">Dashboard</Link>
-      <CountDown targetDate="03-29-2022" />
-      <h1>Orphe</h1>
-      {datas.map((song) => (
-        <div key={song.id}>
-          <p>{song.title}</p>
-          <CustomPlayer
-            id={song.id}
-            src={song.source}
-            currentSong={currentSong}
-            setCurrentSong={setCurrentSong}
-          />
-        </div>
-      ))}
-    </div>
+    <main className="bg-black text-white font-sans">
+      <section className="max-w-3xl mx-auto min-h-[100vh] grid place-items-center">
+        <CountDown targetDate="03-29-2022" />
+      </section>
+
+      <section className="max-w-3xl mx-auto min-h-[100vh] grid place-items-center">
+        <article className="h-md overflow-y-scroll grid">
+          {datas.map((song) => (
+            <div
+              key={song.id}
+              className="px-4 py-4 odd:bg-zinc-900 even:bg-zinc-800"
+            >
+              <p>{song.title}</p>
+              <CustomPlayer
+                id={song.id}
+                src={song.source}
+                currentSong={currentSong}
+                setCurrentSong={setCurrentSong}
+              />
+            </div>
+          ))}
+        </article>
+      </section>
+    </main>
   );
 }
