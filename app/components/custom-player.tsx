@@ -1,10 +1,12 @@
 // a custom media player component
 
 import React, { useEffect, useRef, useState } from 'react';
+import { Form, useFetcher } from 'remix';
 
 type Props = {
   id: number;
   src: string;
+  title: string;
   currentSong: number;
   setCurrentSong: React.Dispatch<React.SetStateAction<number>>;
 };
@@ -18,6 +20,8 @@ export function CustomPlayer(props: Props) {
   const [volume, setVolume] = useState('50');
   const [isMuted, setIsMuted] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
+
+  const form = useFetcher();
 
   useEffect(() => {
     audioRef.current!.volume = Number(volume) / 100;
@@ -76,7 +80,7 @@ export function CustomPlayer(props: Props) {
   };
 
   return (
-    <div className="flex gap-2 max-w-md">
+    <div className="grid gap-2 max-w-md">
       <audio
         ref={audioRef}
         src={src}
@@ -84,44 +88,67 @@ export function CustomPlayer(props: Props) {
         onLoadedMetadata={handleDuration}
       />
 
-      <p className="text-sm">
-        <span>{formatTime(currentTime)} - </span>
-        <span>{formatTime(duration)}</span>
-      </p>
-
-      <div className="flex">
-        <button
-          id={id.toString()}
-          onClick={togglePlay}
-          className="color-blue flex items-center"
-        >
-          {isPlaying ? <PauseSVG /> : <PlaySVG />}
-        </button>
-        <button onClick={handleStop} className="color-red flex items-center">
-          <StopSVG />
-        </button>
-        <input
-          id="seek-slider"
-          type="range"
-          min="0"
-          max={duration}
-          value={currentTime}
-          onChange={handleSeek}
-        />
+      <div className="flex items-baseline gap-2">
+        <p>{props.title}</p>
+        <p className="text-sm">
+          <span>{formatTime(currentTime)} - </span>
+          <span>{formatTime(duration)}</span>
+        </p>
       </div>
 
       <div className="flex">
-        <button onClick={handleMute} className="flex items-center text-amber">
-          {isMuted ? <Mute /> : <Sound />}
-        </button>
-        <input
-          id="volume-slider"
-          type="range"
-          min="0"
-          max="100"
-          value={volume}
-          onChange={handleVolume}
-        />
+        <div className="flex">
+          <form.Form method="post" className="flex">
+            <input type="hidden" name="id" value={id} />
+            <button
+              name="_action"
+              value="increment"
+              id={id.toString()}
+              onClick={togglePlay}
+              className="color-white hover:color-red-800 flex items-center"
+            >
+              {isPlaying ? <PauseSVG /> : <PlaySVG />}
+            </button>
+          </form.Form>
+          <button
+            onClick={handleStop}
+            className="color-white hover:color-red-800 flex items-center"
+          >
+            <StopSVG />
+          </button>
+          <input
+            id="seek-slider"
+            type="range"
+            min="0"
+            max={duration}
+            value={currentTime}
+            onChange={handleSeek}
+          />
+        </div>
+
+        <div className="flex">
+          <button
+            onClick={handleMute}
+            className="flex items-center color-white hover:color-red-800"
+          >
+            {isMuted ? <Mute /> : <Sound />}
+          </button>
+          <input
+            id="volume-slider"
+            type="range"
+            min="0"
+            max="100"
+            value={volume}
+            onChange={handleVolume}
+          />
+        </div>
+
+        <Form method="post">
+          <input type="hidden" name="id" value={src} />
+          <button name="_action" value="download">
+            Download
+          </button>
+        </Form>
       </div>
     </div>
   );
