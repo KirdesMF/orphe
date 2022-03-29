@@ -1,7 +1,7 @@
 // a custom media player component
 
 import React, { useEffect, useRef, useState } from 'react';
-import { Form, useFetcher } from 'remix';
+import { Form } from 'remix';
 
 type Props = {
   id: number;
@@ -20,8 +20,6 @@ export function CustomPlayer(props: Props) {
   const [volume, setVolume] = useState('50');
   const [isMuted, setIsMuted] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
-
-  const form = useFetcher();
 
   useEffect(() => {
     audioRef.current!.volume = Number(volume) / 100;
@@ -79,6 +77,8 @@ export function CustomPlayer(props: Props) {
     audioRef.current!.currentTime = Number(value);
   };
 
+  const handleDownload = () => saveFileWithFetch(src);
+
   return (
     <div className="grid gap-2 max-w-md">
       <audio
@@ -98,7 +98,7 @@ export function CustomPlayer(props: Props) {
 
       <div className="flex">
         <div className="flex">
-          <form.Form method="post" className="flex">
+          <Form method="post" action="/?index" className="flex">
             <input type="hidden" name="id" value={id} />
             <button
               name="_action"
@@ -109,7 +109,7 @@ export function CustomPlayer(props: Props) {
             >
               {isPlaying ? <PauseSVG /> : <PlaySVG />}
             </button>
-          </form.Form>
+          </Form>
           <button
             onClick={handleStop}
             className="color-white hover:color-red-800 flex items-center"
@@ -143,9 +143,9 @@ export function CustomPlayer(props: Props) {
           />
         </div>
 
-        <Form method="post">
-          <input type="hidden" name="id" value={src} />
-          <button name="_action" value="download">
+        <Form method="post" action="/?index">
+          <input type="hidden" name="id" value={id} />
+          <button onClick={handleDownload} name="_action" value="download">
             Download
           </button>
         </Form>
@@ -205,4 +205,19 @@ function formatTime(seconds: number) {
   const minutes = Math.floor(seconds / 60);
   const secondsLeft = Math.floor(seconds % 60);
   return `${minutes}:${secondsLeft < 10 ? '0' : ''}${secondsLeft}`;
+}
+
+// save file from url
+async function saveFileWithFetch(url: string) {
+  const filename = url.substring(url.lastIndexOf('/') + 1).split('?')[0];
+  const res = await fetch(url);
+  const blob = await res.blob();
+
+  const a = document.createElement('a');
+  a.href = window.URL.createObjectURL(blob);
+  a.download = filename;
+  a.style.display = 'none';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
 }

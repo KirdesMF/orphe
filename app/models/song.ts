@@ -4,4 +4,5 @@ export type Song = {
   artist: string;
   listening: number;
   source: string;
+  downloaded: number;
 };

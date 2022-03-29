@@ -1,14 +1,17 @@
-import { json, redirect, useLoaderData } from 'remix';
+import { json, useActionData, useLoaderData } from 'remix';
 import { supabase } from '~/utils/supabase.server';
 
 import type { LoaderFunction, ActionFunction } from 'remix';
 import type { Song } from '~/models/song';
 import { CustomPlayer } from '~/components/custom-player';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CountDown } from '~/components/countdown';
 
 export const loader: LoaderFunction = async () => {
-  const { data: songs } = await supabase.from('Song').select('*');
+  const { data: songs } = await supabase
+    .from<Song>('Song')
+    .select('*')
+    .order('id');
 
   return json(songs);
 };
@@ -18,21 +21,12 @@ export const action: ActionFunction = async ({ request }) => {
   const { _action, ...values } = Object.fromEntries(body);
 
   if (_action === 'increment') {
+    console.log('incrementing');
     await supabase.rpc('increment', { row_id: values.id });
     return json({ ok: true });
   }
 
-  if (_action === 'download') {
-    const { data, error } = await supabase.storage
-      .from('orphe-music')
-      .download('Orphe - Dors.mp3');
-
-    console.log(data);
-    return json(
-      { data },
-      { status: Number(error?.stack), statusText: error?.message }
-    );
-  }
+  return null;
 };
 
 export default function Index() {

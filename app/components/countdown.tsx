@@ -5,17 +5,18 @@ type Props = {
 };
 
 export function CountDown(props: Props) {
-  const targetDate = new Date(props.targetDate).getTime();
-  const [timeLeft, setTimeLeft] = useState(targetDate - new Date().getTime());
+  const [timeLeft, setTimeLeft] = useState(0);
   const values = getCountDownValues(timeLeft);
 
   useEffect(() => {
+    const targetDate = new Date(props.targetDate).getTime();
+
     const interval = setInterval(() => {
       setTimeLeft(targetDate - new Date().getTime());
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [targetDate]);
+  }, [props.targetDate]);
 
   return (
     <p className="text-4xl">
