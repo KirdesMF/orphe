@@ -1,4 +1,4 @@
-import { json, useLoaderData } from 'remix';
+import { json, Link, useLoaderData } from 'remix';
 import { supabase } from '~/utils/supabase.server';
 
 import type { LoaderFunction, ActionFunction } from 'remix';
@@ -18,7 +18,7 @@ export const loader: LoaderFunction = async () => {
     .select('*')
     .order('id');
 
-  const targetDate = new Date('03/30/2022').getTime();
+  const targetDate = new Date('04/30/2022').getTime();
   const timeLeft = targetDate - new Date().getTime();
 
   return json({ songs, dates: { targetDate, timeLeft } });
@@ -46,12 +46,13 @@ export default function Index() {
   const [currentSong, setCurrentSong] = useState(0);
 
   return (
-    <main className="bg-black text-white font-sans">
+    <main className="bg-black text-white font-sans px-4xl py-6xl">
       <section className="max-w-3xl mx-auto min-h-[100vh] grid place-items-center">
         <CountDown targetDate={dates.targetDate} timeLeft={dates.timeLeft} />
       </section>
 
       <section className="max-w-3xl mx-auto min-h-[100vh] grid place-items-center">
+        <Link to="/dashboard">Dashboard</Link>
         <div className="h-md overflow-y-scroll">
           {songs.map((song) => (
             <ul key={song.id} className="odd:bg-zinc-900 even:bg-zinc-800">
