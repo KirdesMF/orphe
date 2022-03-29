@@ -7,13 +7,21 @@ import { CustomPlayer } from '~/components/custom-player';
 import { useState } from 'react';
 import { CountDown } from '~/components/countdown';
 
+type Loader = {
+  songs: Array<Song>;
+  dates: { targetDate: number; timeLeft: number };
+};
+
 export const loader: LoaderFunction = async () => {
   const { data: songs } = await supabase
     .from<Song>('Song')
     .select('*')
     .order('id');
 
-  return json(songs);
+  const targetDate = new Date('03/30/2022').getTime();
+  const timeLeft = targetDate - new Date().getTime();
+
+  return json({ songs, dates: { targetDate, timeLeft } });
 };
 
 export const action: ActionFunction = async ({ request }) => {
@@ -34,23 +42,20 @@ export const action: ActionFunction = async ({ request }) => {
 };
 
 export default function Index() {
-  const datas = useLoaderData<Array<Song>>();
+  const { songs, dates } = useLoaderData<Loader>();
   const [currentSong, setCurrentSong] = useState(0);
 
   return (
     <main className="bg-black text-white font-sans">
       <section className="max-w-3xl mx-auto min-h-[100vh] grid place-items-center">
-        <CountDown targetDate="03/30/2022" />
+        <CountDown targetDate={dates.targetDate} timeLeft={dates.timeLeft} />
       </section>
 
       <section className="max-w-3xl mx-auto min-h-[100vh] grid place-items-center">
         <div className="h-md overflow-y-scroll">
-          {datas.map((song) => (
-            <ul
-              key={song.id}
-              className="px-4 py-4 odd:bg-zinc-900 even:bg-zinc-800"
-            >
-              <li>
+          {songs.map((song) => (
+            <ul key={song.id} className="odd:bg-zinc-900 even:bg-zinc-800">
+              <li className="px-4 py-4">
                 <CustomPlayer
                   id={song.id}
                   src={song.source}

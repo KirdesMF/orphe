@@ -1,4 +1,4 @@
-import { json, redirect, useLoaderData } from 'remix';
+import { json, useLoaderData } from 'remix';
 import type { Song } from '~/models/song';
 import { supabase } from '~/utils/supabase.server';
 

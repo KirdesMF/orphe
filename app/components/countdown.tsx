@@ -1,18 +1,17 @@
 import { useEffect, useState } from 'react';
 
 type Props = {
-  targetDate: string;
+  targetDate: number;
+  timeLeft: number;
 };
 
 export function CountDown(props: Props) {
-  const [timeLeft, setTimeLeft] = useState(0);
+  const [timeLeft, setTimeLeft] = useState(props.timeLeft);
   const values = getCountDownValues(timeLeft);
 
   useEffect(() => {
-    const targetDate = new Date(props.targetDate).getTime();
-
     const interval = setInterval(() => {
-      setTimeLeft(targetDate - new Date().getTime());
+      setTimeLeft(props.targetDate - new Date().getTime());
     }, 1000);
 
     return () => clearInterval(interval);

@@ -88,42 +88,13 @@ export function CustomPlayer(props: Props) {
         onLoadedMetadata={handleDuration}
       />
 
-      <div className="flex items-baseline gap-2">
-        <p>{props.title}</p>
-        <p className="text-sm">
-          <span>{formatTime(currentTime)} - </span>
-          <span>{formatTime(duration)}</span>
-        </p>
-      </div>
-
-      <div className="flex">
-        <div className="flex">
-          <Form method="post" action="/?index" className="flex">
-            <input type="hidden" name="id" value={id} />
-            <button
-              name="_action"
-              value="increment"
-              id={id.toString()}
-              onClick={togglePlay}
-              className="color-white hover:color-red-800 flex items-center"
-            >
-              {isPlaying ? <PauseSVG /> : <PlaySVG />}
-            </button>
-          </Form>
-          <button
-            onClick={handleStop}
-            className="color-white hover:color-red-800 flex items-center"
-          >
-            <StopSVG />
-          </button>
-          <input
-            id="seek-slider"
-            type="range"
-            min="0"
-            max={duration}
-            value={currentTime}
-            onChange={handleSeek}
-          />
+      <div className="flex items-center justify-between">
+        <div className="flex items-baseline gap-2">
+          <p>{props.title}</p>
+          <p className="text-sm">
+            <span>{formatTime(currentTime)} - </span>
+            <span>{formatTime(duration)}</span>
+          </p>
         </div>
 
         <div className="flex">
@@ -140,10 +111,33 @@ export function CustomPlayer(props: Props) {
             max="100"
             value={volume}
             onChange={handleVolume}
+            className="w-[4rem]"
           />
         </div>
+      </div>
 
-        <Form method="post" action="/?index">
+      <div className="flex">
+        <Form method="post" className="flex">
+          <input type="hidden" name="id" value={id} />
+          <button
+            name="_action"
+            value="increment"
+            id={id.toString()}
+            onClick={togglePlay}
+            className="color-white hover:color-red-800 flex items-center"
+          >
+            {isPlaying ? <PauseSVG /> : <PlaySVG />}
+          </button>
+        </Form>
+
+        <button
+          onClick={handleStop}
+          className="color-white hover:color-red-800 flex items-center"
+        >
+          <StopSVG />
+        </button>
+
+        <Form method="post" className="flex">
           <input type="hidden" name="id" value={id} />
           <button
             onClick={handleDownload}
@@ -154,6 +148,16 @@ export function CustomPlayer(props: Props) {
             <DownloadSVG />
           </button>
         </Form>
+
+        <input
+          id="seek-slider"
+          type="range"
+          min="0"
+          max={duration}
+          value={currentTime}
+          onChange={handleSeek}
+          className="flex-1"
+        />
       </div>
     </article>
   );
