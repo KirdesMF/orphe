@@ -46,7 +46,7 @@ export default function Index() {
   const [currentSong, setCurrentSong] = useState(0);
 
   return (
-    <main className="bg-black text-white font-sans px-4xl py-6xl">
+    <main className="bg-black text-white font-sans px-4xl">
       <section className="max-w-3xl mx-auto min-h-[100vh] grid place-items-center">
         <CountDown targetDate={dates.targetDate} timeLeft={dates.timeLeft} />
       </section>
