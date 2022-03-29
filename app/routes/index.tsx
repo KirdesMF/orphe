@@ -21,12 +21,16 @@ export const action: ActionFunction = async ({ request }) => {
   const { _action, ...values } = Object.fromEntries(body);
 
   if (_action === 'increment') {
-    console.log('incrementing');
-    await supabase.rpc('increment', { row_id: values.id });
+    await supabase.rpc('increment_listening', { row_id: values.id });
     return json({ ok: true });
   }
 
-  return null;
+  if (_action === 'download') {
+    await supabase.rpc('increment_download', { row_id: values.id });
+    return json({ ok: true });
+  }
+
+  return false;
 };
 
 export default function Index() {

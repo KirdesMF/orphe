@@ -80,7 +80,7 @@ export function CustomPlayer(props: Props) {
   const handleDownload = () => saveFileWithFetch(src);
 
   return (
-    <div className="grid gap-2 max-w-md">
+    <div className="grid gap-2">
       <audio
         ref={audioRef}
         src={src}
@@ -145,8 +145,13 @@ export function CustomPlayer(props: Props) {
 
         <Form method="post" action="/?index">
           <input type="hidden" name="id" value={id} />
-          <button onClick={handleDownload} name="_action" value="download">
-            Download
+          <button
+            onClick={handleDownload}
+            name="_action"
+            value="download"
+            className="flex items-center color-white hover:color-red-800"
+          >
+            <DownloadSVG />
           </button>
         </Form>
       </div>
@@ -196,6 +201,17 @@ function Mute() {
   return (
     <svg width="1em" height="1em" viewBox="0 0 24 24">
       <path fill="currentColor" d="M7 9v6h4l5 5V4l-5 5H7z"></path>
+    </svg>
+  );
+}
+
+function DownloadSVG() {
+  return (
+    <svg width="1em" height="1em" viewBox="0 0 24 24">
+      <path
+        fill="currentColor"
+        d="M19 9h-4V3H9v6H5l7 7l7-7zM5 18v2h14v-2H5z"
+      ></path>
     </svg>
   );
 }
