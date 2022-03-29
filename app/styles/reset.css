@@ -20,9 +20,10 @@ dd {
 }
 
 /* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
-ul[role='list'],
-ol[role='list'] {
+ul,
+ol {
   list-style: none;
+  margin: 0;
 }
 
 /* Set core root defaults */
@@ -57,6 +58,11 @@ select {
   font: inherit;
 }
 
+button {
+  background-color: unset;
+  border: none;
+}
+
 /* Remove all animations and transitions for people that prefer not to see them */
 @media (prefers-reduced-motion: reduce) {
   html:focus-within {
@@ -70,9 +76,4 @@ select {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-}
-
-button {
-  background-color: unset;
-  border: none;
 }

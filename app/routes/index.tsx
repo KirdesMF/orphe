@@ -1,10 +1,10 @@
-import { json, useActionData, useLoaderData } from 'remix';
+import { json, useLoaderData } from 'remix';
 import { supabase } from '~/utils/supabase.server';
 
 import type { LoaderFunction, ActionFunction } from 'remix';
 import type { Song } from '~/models/song';
 import { CustomPlayer } from '~/components/custom-player';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { CountDown } from '~/components/countdown';
 
 export const loader: LoaderFunction = async () => {
@@ -17,8 +17,8 @@ export const loader: LoaderFunction = async () => {
 };
 
 export const action: ActionFunction = async ({ request }) => {
-  const body = await request.formData();
-  const { _action, ...values } = Object.fromEntries(body);
+  const form = await request.formData();
+  const { _action, ...values } = Object.fromEntries(form);
 
   if (_action === 'increment') {
     await supabase.rpc('increment_listening', { row_id: values.id });
@@ -30,7 +30,7 @@ export const action: ActionFunction = async ({ request }) => {
     return json({ ok: true });
   }
 
-  return false;
+  return null;
 };
 
 export default function Index() {
@@ -44,22 +44,24 @@ export default function Index() {
       </section>
 
       <section className="max-w-3xl mx-auto min-h-[100vh] grid place-items-center">
-        <article className="h-md overflow-y-scroll">
+        <div className="h-md overflow-y-scroll">
           {datas.map((song) => (
-            <div
+            <ul
               key={song.id}
               className="px-4 py-4 odd:bg-zinc-900 even:bg-zinc-800"
             >
-              <CustomPlayer
-                id={song.id}
-                src={song.source}
-                title={song.title}
-                currentSong={currentSong}
-                setCurrentSong={setCurrentSong}
-              />
-            </div>
+              <li>
+                <CustomPlayer
+                  id={song.id}
+                  src={song.source}
+                  title={song.title}
+                  currentSong={currentSong}
+                  setCurrentSong={setCurrentSong}
+                />
+              </li>
+            </ul>
           ))}
-        </article>
+        </div>
       </section>
     </main>
   );

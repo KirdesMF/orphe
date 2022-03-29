@@ -80,7 +80,7 @@ export function CustomPlayer(props: Props) {
   const handleDownload = () => saveFileWithFetch(src);
 
   return (
-    <div className="grid gap-2">
+    <article className="grid gap-2">
       <audio
         ref={audioRef}
         src={src}
@@ -155,7 +155,7 @@ export function CustomPlayer(props: Props) {
           </button>
         </Form>
       </div>
-    </div>
+    </article>
   );
 }
 
