@@ -1,7 +1,7 @@
 // a custom media player component
 
 import React, { useEffect, useRef, useState } from 'react';
-import { Form } from 'remix';
+import { Form, useSubmit } from 'remix';
 
 type Props = {
   id: number;
@@ -14,6 +14,7 @@ type Props = {
 export function CustomPlayer(props: Props) {
   const { id, src, currentSong, setCurrentSong } = props;
   const audioRef = useRef<HTMLAudioElement>(null);
+  const btnRef = useRef<HTMLButtonElement>(null);
 
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -28,6 +29,7 @@ export function CustomPlayer(props: Props) {
   useEffect(() => {
     if (currentSong === id) {
       audioRef.current?.play();
+      btnRef.current?.click();
       setIsPlaying(true);
     } else {
       audioRef.current?.pause();
@@ -46,6 +48,12 @@ export function CustomPlayer(props: Props) {
   };
 
   const handleStop = () => {
+    audioRef.current?.pause();
+    audioRef.current!.currentTime = 0;
+    setIsPlaying(false);
+  };
+
+  const handleNext = () => {
     audioRef.current?.pause();
     audioRef.current!.currentTime = 0;
     setIsPlaying(false);
@@ -87,7 +95,7 @@ export function CustomPlayer(props: Props) {
         src={src}
         onTimeUpdate={handleTime}
         onLoadedMetadata={handleDuration}
-        onEnded={handleStop}
+        onEnded={handleNext}
       />
 
       <div className="flex items-center justify-between">
@@ -106,14 +114,16 @@ export function CustomPlayer(props: Props) {
           >
             {isMuted ? <MuteSVG /> : <SoundSVG />}
           </button>
-          <input
-            type="range"
-            min="0"
-            max="100"
-            value={volume}
-            onChange={handleVolume}
-            className="w-[4rem]"
-          />
+          <label className="flex items-center">
+            <input
+              type="range"
+              min="0"
+              max="100"
+              value={volume}
+              onChange={handleVolume}
+              className="w-[4rem]"
+            />
+          </label>
         </div>
       </div>
 
@@ -121,8 +131,9 @@ export function CustomPlayer(props: Props) {
         <Form method="post" className="flex">
           <input type="hidden" name="id" value={id} />
           <button
+            ref={btnRef}
             name="_action"
-            value="increment"
+            value="increment_listening"
             id={id.toString()}
             onClick={togglePlay}
             className="color-white hover:color-red-800 flex items-center"
@@ -143,21 +154,23 @@ export function CustomPlayer(props: Props) {
           <button
             onClick={handleDownload}
             name="_action"
-            value="download"
+            value="increment_download"
             className="flex items-center color-white hover:color-red-800"
           >
             <DownloadSVG />
           </button>
         </Form>
 
-        <input
-          type="range"
-          min="0"
-          max={duration}
-          value={currentTime}
-          onChange={handleSeek}
-          className="flex-1"
-        />
+        <label className="flex-1 flex items-center">
+          <input
+            type="range"
+            min="0"
+            max={duration}
+            value={currentTime}
+            onChange={handleSeek}
+            className="w-full"
+          />
+        </label>
       </div>
     </article>
   );

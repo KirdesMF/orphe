@@ -1,4 +1,4 @@
-import { json, Link, useLoaderData } from 'remix';
+import { json, Link, redirect, useLoaderData } from 'remix';
 import { supabase } from '~/utils/supabase.server';
 
 import type { LoaderFunction, ActionFunction } from 'remix';
@@ -28,14 +28,14 @@ export const action: ActionFunction = async ({ request }) => {
   const form = await request.formData();
   const { _action, ...values } = Object.fromEntries(form);
 
-  if (_action === 'increment') {
+  if (_action === 'increment_listening') {
     await supabase.rpc('increment_listening', { row_id: values.id });
-    return json({ ok: true });
+    return redirect('/');
   }
 
-  if (_action === 'download') {
+  if (_action === 'increment_download') {
     await supabase.rpc('increment_download', { row_id: values.id });
-    return json({ ok: true });
+    return redirect('/');
   }
 
   return null;
@@ -47,11 +47,11 @@ export default function Index() {
 
   return (
     <main className="bg-black text-white font-manrope px-4xl">
-      <section className="max-w-3xl mx-auto min-h-[100vh] grid place-items-center">
+      <section className="min-h-[100vh] grid place-items-center">
         <CountDown targetDate={dates.targetDate} timeLeft={dates.timeLeft} />
       </section>
 
-      <section className="max-w-3xl mx-auto min-h-[100vh] grid place-items-center">
+      <section className="min-h-[100vh] grid place-items-center">
         <Link to="/dashboard">Dashboard</Link>
         <div className="h-md overflow-y-scroll">
           {songs.map((song) => (
