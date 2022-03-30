@@ -1,0 +1,26 @@
+/* https://web.dev/variable-fonts/#fallbacks */
+@supports not (font-variation-settings: normal) {
+  @font-face {
+    font-family: 'Manrope';
+    src: url('/fonts/fixed/Manrope-ExtraBold.woff2');
+    font-display: swap;
+    font-weight: 900;
+  }
+
+  @font-face {
+    font-family: 'Manrope';
+    src: url('/fonts/fixed/Manrope-Regular.woff2');
+    font-display: swap;
+    font-weight: 500;
+  }
+}
+@supports (font-variation-settings: normal) {
+  @font-face {
+    font-family: 'Manrope';
+    src: url('/fonts/variables/Manrope[wght].woff2')
+        format('woff2 supports variations'),
+      url('/fonts/variables/Manrope[wght].woff2') format('woff2-variations');
+    font-weight: 100 900;
+    font-display: swap;
+  }
+}

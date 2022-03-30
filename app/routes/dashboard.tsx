@@ -16,7 +16,7 @@ export default function Index() {
   const datas = useLoaderData<Array<Song>>();
 
   return (
-    <main className="bg-black text-white font-sans px-4xl py-6xl">
+    <main className="bg-black text-white font-manrope px-4xl py-6xl">
       <section className="max-w-3xl mx-auto min-h-[100vh] grid place-items-center">
         <Link to="/">Back Home</Link>
         <TableStats datas={datas} />
