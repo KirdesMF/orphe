@@ -18,11 +18,11 @@ export function CountDown(props: Props) {
   }, [props.targetDate]);
 
   return (
-    <p className="text-4xl font-900">
-      <span>{values.days} jours, </span>
-      <span>{values.hours} heures, </span>
-      <span>{values.minutes} minutes, </span>
-      <span>{values.seconds} seconds</span>
+    <p className="text-clamp-4xl font-900 tabular-nums">
+      <span>{values.days} j. </span>
+      <span>{values.hours} h. </span>
+      <span>{values.minutes} m. </span>
+      <span className="color-red-900">{values.seconds} s.</span>
     </p>
   );
 }

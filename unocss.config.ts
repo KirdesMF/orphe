@@ -9,5 +9,11 @@ export default defineConfig({
         'font-family': `Manrope`,
       }),
     ],
+    [
+      /^text-clamp-(xs|sm|md|lg|xl|2xl|3xl|4xl)$/,
+      (match) => ({
+        'font-size': `var(--step-${match[1]})`,
+      }),
+    ],
   ],
 });
