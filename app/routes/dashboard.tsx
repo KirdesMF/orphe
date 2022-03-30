@@ -6,8 +6,8 @@ import { supabase } from '~/utils/supabase.server';
 export const loader = async () => {
   const { data } = await supabase
     .from<Song>('Song')
-    .select('*')
-    .select('downloaded,listening,title,id');
+    .select('downloaded,listening,title,id')
+    .order('listening', { ascending: false });
 
   return json(data);
 };

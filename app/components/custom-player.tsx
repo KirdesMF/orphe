@@ -102,10 +102,9 @@ export function CustomPlayer(props: Props) {
             onClick={handleMute}
             className="flex items-center color-white hover:color-red-800"
           >
-            {isMuted ? <Mute /> : <Sound />}
+            {isMuted ? <MuteSVG /> : <SoundSVG />}
           </button>
           <input
-            id="volume-slider"
             type="range"
             min="0"
             max="100"
@@ -150,7 +149,6 @@ export function CustomPlayer(props: Props) {
         </Form>
 
         <input
-          id="seek-slider"
           type="range"
           min="0"
           max={duration}
@@ -168,7 +166,7 @@ function PlaySVG() {
     <svg width="1em" height="1em" viewBox="0 0 24 24">
       <path
         fill="currentColor"
-        d="M8 6.82v10.36c0 .79.87 1.27 1.54.84l8.14-5.18a1 1 0 0 0 0-1.69L9.54 5.98A.998.998 0 0 0 8 6.82z"
+        d="M10 20H8V4h2v2h2v3h2v2h2v2h-2v2h-2v3h-2v2z"
       ></path>
     </svg>
   );
@@ -177,7 +175,7 @@ function PlaySVG() {
 function PauseSVG() {
   return (
     <svg width="1em" height="1em" viewBox="0 0 24 24">
-      <path fill="currentColor" d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"></path>
+      <path fill="currentColor" d="M10 4H5v16h5V4zm9 0h-5v16h5V4z"></path>
     </svg>
   );
 }
@@ -190,21 +188,24 @@ function StopSVG() {
   );
 }
 
-function Sound() {
+function SoundSVG() {
   return (
     <svg width="1em" height="1em" viewBox="0 0 24 24">
       <path
         fill="currentColor"
-        d="M18.5 12A4.5 4.5 0 0 0 16 7.97v8.05c1.48-.73 2.5-2.25 2.5-4.02zM5 10v4c0 .55.45 1 1 1h3l3.29 3.29c.63.63 1.71.18 1.71-.71V6.41c0-.89-1.08-1.34-1.71-.71L9 9H6c-.55 0-1 .45-1 1z"
+        d="M11 2h2v20h-2v-2H9v-2h2V6H9V4h2V2zM7 8V6h2v2H7zm0 8H3V8h4v2H5v4h2v2zm0 0v2h2v-2H7zm10-6h-2v4h2v-4zm2-2h2v8h-2V8zm0 8v2h-4v-2h4zm0-10v2h-4V6h4z"
       ></path>
     </svg>
   );
 }
 
-function Mute() {
+function MuteSVG() {
   return (
     <svg width="1em" height="1em" viewBox="0 0 24 24">
-      <path fill="currentColor" d="M7 9v6h4l5 5V4l-5 5H7z"></path>
+      <path
+        fill="currentColor"
+        d="M13 2h-2v2H9v2H7v2H3v8h4v2h2v2h2v2h2V2zM9 18v-2H7v-2H5v-4h2V8h2V6h2v12H9zm10-6.777h-2v-2h-2v2h2v2h-2v2h2v-2h2v2h2v-2h-2v-2zm0 0h2v-2h-2v2z"
+      ></path>
     </svg>
   );
 }
@@ -214,7 +215,7 @@ function DownloadSVG() {
     <svg width="1em" height="1em" viewBox="0 0 24 24">
       <path
         fill="currentColor"
-        d="M19 9h-4V3H9v6H5l7 7l7-7zM5 18v2h14v-2H5z"
+        d="M11 4h2v8h2v2h-2v2h-2v-2H9v-2h2V4zm-2 8H7v-2h2v2zm6 0v-2h2v2h-2zM4 18h16v2H4v-2z"
       ></path>
     </svg>
   );

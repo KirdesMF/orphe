@@ -9,15 +9,9 @@ export function TableStats(props: Props) {
       <caption className="p-4">Stats</caption>
       <thead className="sr-only md:not-sr-only text-left">
         <tr>
-          <th className="p-4" scope="col">
-            Title
-          </th>
-          <th className="p-4" scope="col">
-            Listening
-          </th>
-          <th className="p-4" scope="col">
-            Downloaded
-          </th>
+          <Th content="Title" />
+          <Th content="Listened" />
+          <Th content="Downloaded" />
         </tr>
       </thead>
       <tbody>
@@ -26,27 +20,31 @@ export function TableStats(props: Props) {
             key={song.id}
             className="border-1 border-gray bg-gray-900 block md:table-row not-last:mb-6"
           >
-            <td
-              data-label="Title"
-              className="p-4 before:content-[attr(data-label)] md:before:sr-only flex justify-between md:table-cell"
-            >
-              {song.title}
-            </td>
-            <td
-              data-label="Listening"
-              className="p-4 before:content-[attr(data-label)] md:before:sr-only flex justify-between md:table-cell"
-            >
-              {song.listening}
-            </td>
-            <td
-              data-label="Downloaded"
-              className="p-4 before:content-[attr(data-label)] md:before:sr-only flex justify-between md:table-cell"
-            >
-              {song.downloaded}
-            </td>
+            <Td label="Title" content={song.title} />
+            <Td label="Listening" content={song.listening} />
+            <Td label="Downloaded" content={song.downloaded} />
           </tr>
         ))}
       </tbody>
     </table>
+  );
+}
+
+function Th({ content }: { content: string }) {
+  return (
+    <th className="p-4" scope="col">
+      {content}
+    </th>
+  );
+}
+
+function Td({ label, content }: { label: string; content: number | string }) {
+  return (
+    <td
+      data-label={label}
+      className="p-4 before:content-[attr(data-label)] md:before:sr-only flex justify-between md:table-cell"
+    >
+      {content}
+    </td>
   );
 }

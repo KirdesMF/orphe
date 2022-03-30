@@ -15,7 +15,7 @@ type Loader = {
 export const loader: LoaderFunction = async () => {
   const { data: songs } = await supabase
     .from<Song>('Song')
-    .select('*')
+    .select('id,source,title')
     .order('id');
 
   const targetDate = new Date('04/30/2022').getTime();
