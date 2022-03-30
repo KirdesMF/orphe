@@ -49,6 +49,7 @@ export function CustomPlayer(props: Props) {
     audioRef.current?.pause();
     audioRef.current!.currentTime = 0;
     setIsPlaying(false);
+    setCurrentSong((prev) => prev + 1);
   };
 
   const handleTime = () => {
@@ -86,6 +87,7 @@ export function CustomPlayer(props: Props) {
         src={src}
         onTimeUpdate={handleTime}
         onLoadedMetadata={handleDuration}
+        onEnded={handleStop}
       />
 
       <div className="flex items-center justify-between">
