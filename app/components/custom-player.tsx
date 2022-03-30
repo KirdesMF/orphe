@@ -1,7 +1,7 @@
 // a custom media player component
 
 import React, { useEffect, useRef, useState } from 'react';
-import { Form, useSubmit } from 'remix';
+import { Form } from 'remix';
 
 type Props = {
   id: number;
