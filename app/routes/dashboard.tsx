@@ -11,7 +11,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 
   const { data } = await supabase
     .from<Song>('Song')
-    .select('downloaded,listening,title,id')
+    .select('downloaded,listening,title,id,likes')
     .order('listening', { ascending: false });
 
   return json(data);

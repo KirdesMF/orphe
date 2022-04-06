@@ -12,6 +12,7 @@ export function TableStats(props: Props) {
           <Th content="Title" />
           <Th content="Listened" />
           <Th content="Downloaded" />
+          <Th content="Likes" />
         </tr>
       </thead>
       <tbody>
@@ -23,6 +24,7 @@ export function TableStats(props: Props) {
             <Td label="Title" content={song.title} />
             <Td label="Listening" content={song.listening} />
             <Td label="Downloaded" content={song.downloaded} />
+            <Td label="Likes" content={song.likes} />
           </tr>
         ))}
       </tbody>
