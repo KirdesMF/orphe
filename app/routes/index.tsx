@@ -19,7 +19,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 
   const { data: songs } = await supabase
     .from<Song>('Song')
-    .select('id,source,title,likes')
+    .select('id,source,title,likes,listening')
     .order('id');
 
   const targetDate = new Date('04/30/2022').getTime();
@@ -57,15 +57,15 @@ export const action: ActionFunction = async ({ request }) => {
 
     // if there is no cookie yet, create one
     if (!session.has('user_likes')) session.set('user_likes', [values.id]);
-
-    const user_likes = session.get('user_likes') as Array<string>;
-
-    if (user_likes.includes(values.id as string))
-      session.set(
-        'user_likes',
-        user_likes.filter((id) => id !== values.id)
-      );
-    else session.set('user_likes', [...user_likes, values.id]);
+    else {
+      const user_likes = session.get('user_likes') as Array<string>;
+      if (user_likes.includes(values.id as string))
+        session.set(
+          'user_likes',
+          user_likes.filter((id) => id !== values.id)
+        );
+      else session.set('user_likes', [...user_likes, values.id]);
+    }
 
     return json(
       { ok: values.id },
@@ -87,30 +87,37 @@ export default function Index() {
   return (
     <main className="bg-black text-white font-manrope px-4xl">
       <section className="min-h-[100vh] grid place-items-center">
-        <CountDown targetDate={dates.targetDate} timeLeft={dates.timeLeft} />
+        <div>
+          <h1 className="text-clamp-lg font-800 text-center">OB production</h1>
+          <CountDown targetDate={dates.targetDate} timeLeft={dates.timeLeft} />
+          <p>Orphe Bandana</p>
+        </div>
       </section>
 
       <section className="min-h-[100vh] grid place-items-center">
-        <div className="flex gap-x-2">
-          <Link to="/dashboard">Dashboard</Link>
-          <Link to="/login">Login</Link>
-        </div>
-        <div className="h-md overflow-y-scroll">
-          {songs.map((song) => (
-            <ul key={song.id} className="odd:bg-zinc-900 even:bg-zinc-800">
-              <li className="px-4 py-4">
+        <div className="grid gap-y-4">
+          <h2 className="text-clamp-md font-800">
+            En attendant le nouveau projet
+          </h2>
+          <ul className="h-md overflow-y-scroll">
+            {songs.map((song) => (
+              <li
+                key={song.id}
+                className="px-4 py-4 odd:bg-zinc-900 even:bg-zinc-800"
+              >
                 <CustomPlayer
                   id={song.id}
                   src={song.source}
                   title={song.title}
                   likes={song.likes}
+                  listening={song.listening}
                   currentSong={currentSong}
                   setCurrentSong={setCurrentSong}
                   hasLiked={user_likes.includes(`${song.id}`)}
                 />
               </li>
-            </ul>
-          ))}
+            ))}
+          </ul>
         </div>
       </section>
     </main>

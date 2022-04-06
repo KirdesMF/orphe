@@ -2,7 +2,6 @@ import {
   ActionFunction,
   Form,
   json,
-  Link,
   LoaderFunction,
   redirect,
   useActionData,
@@ -52,12 +51,24 @@ export default function Login() {
 
   return (
     <main className="bg-black text-white font-manrope px-4xl py-6xl">
-      <section className="max-w-3xl mx-auto min-h-[100vh]">
-        <Link to="/">Back Home</Link>
-        <Form method="post" className="grid gap-4">
-          <input type="email" name="email" placeholder="Email" />
-          <input type="password" name="password" placeholder="Password" />
-          <button type="submit" className="color-white bg-amber">
+      <section className="max-w-3xl mx-auto min-h-[100vh] grid place-items-center">
+        <Form method="post" className="grid gap-4 w-full">
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            className="py-4 px-2"
+          />
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            className="py-4 px-2"
+          />
+          <button
+            type="submit"
+            className="color-white bg-red-800 hover:bg-red-700 transition ease-in-out py-4"
+          >
             Login
           </button>
           <p>{actionData?.error ? actionData?.error?.message : null}</p>
