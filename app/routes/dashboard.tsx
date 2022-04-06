@@ -1,9 +1,14 @@
-import { json, Link, useLoaderData } from 'remix';
+import { json, Link, LoaderFunction, redirect, useLoaderData } from 'remix';
 import { TableStats } from '~/components/table-stats';
 import type { Song } from '~/models/song';
+import { getSession } from '~/utils/cookie.server';
 import { supabase } from '~/utils/supabase.server';
 
-export const loader = async () => {
+export const loader: LoaderFunction = async ({ request }) => {
+  const session = await getSession(request.headers.get('Cookie'));
+
+  if (!session.has('userId')) return redirect('/login');
+
   const { data } = await supabase
     .from<Song>('Song')
     .select('downloaded,listening,title,id')
