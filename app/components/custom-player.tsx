@@ -1,7 +1,7 @@
 // a custom media player component
 
 import React, { useEffect, useRef, useState } from 'react';
-import { Form } from 'remix';
+import { useFetcher } from 'remix';
 
 type Props = {
   id: number;
@@ -14,13 +14,14 @@ type Props = {
 export function CustomPlayer(props: Props) {
   const { id, src, currentSong, setCurrentSong } = props;
   const audioRef = useRef<HTMLAudioElement>(null);
-  const btnRef = useRef<HTMLButtonElement>(null);
+  const fetcher = useFetcher();
 
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState('50');
   const [isMuted, setIsMuted] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isListened, setIsListened] = useState(false);
 
   useEffect(() => {
     audioRef.current!.volume = Number(volume) / 100;
@@ -29,7 +30,6 @@ export function CustomPlayer(props: Props) {
   useEffect(() => {
     if (currentSong === id) {
       audioRef.current?.play();
-      btnRef.current?.click();
       setIsPlaying(true);
     } else {
       audioRef.current?.pause();
@@ -53,7 +53,7 @@ export function CustomPlayer(props: Props) {
     setIsPlaying(false);
   };
 
-  const handleNext = () => {
+  const handleEnd = () => {
     audioRef.current?.pause();
     audioRef.current!.currentTime = 0;
     setIsPlaying(false);
@@ -63,6 +63,17 @@ export function CustomPlayer(props: Props) {
   const handleTime = () => {
     const { currentTime } = audioRef.current!;
     setCurrentTime(currentTime);
+
+    if (currentTime > 30) setIsListened(true);
+    if (currentTime > 30 && isListened === false) {
+      fetcher.submit(
+        {
+          id: `${id}`,
+          _action: 'increment_listening',
+        },
+        { method: 'post' }
+      );
+    }
   };
 
   const handleDuration = () => {
@@ -86,7 +97,16 @@ export function CustomPlayer(props: Props) {
     audioRef.current!.currentTime = Number(value);
   };
 
-  const handleDownload = () => saveFileWithFetch(src);
+  const handleDownload = () => {
+    fetcher.submit(
+      {
+        id: `${id}`,
+        _action: 'increment_download',
+      },
+      { method: 'post' }
+    );
+    saveFileWithFetch(src);
+  };
 
   return (
     <article className="grid gap-2">
@@ -95,7 +115,7 @@ export function CustomPlayer(props: Props) {
         src={src}
         onTimeUpdate={handleTime}
         onLoadedMetadata={handleDuration}
-        onEnded={handleNext}
+        onEnded={handleEnd}
       />
 
       <div className="flex items-center justify-between">
@@ -128,19 +148,15 @@ export function CustomPlayer(props: Props) {
       </div>
 
       <div className="flex">
-        <Form method="post" className="flex">
-          <input type="hidden" name="id" value={id} />
-          <button
-            ref={btnRef}
-            name="_action"
-            value="increment_listening"
-            id={id.toString()}
-            onClick={togglePlay}
-            className="color-white hover:color-red-800 flex items-center"
-          >
-            {isPlaying ? <PauseSVG /> : <PlaySVG />}
-          </button>
-        </Form>
+        <button
+          name="_action"
+          value="increment_listening"
+          id={`${id}`}
+          onClick={togglePlay}
+          className="color-white hover:color-red-800 flex items-center"
+        >
+          {isPlaying ? <PauseSVG /> : <PlaySVG />}
+        </button>
 
         <button
           onClick={handleStop}
@@ -149,17 +165,14 @@ export function CustomPlayer(props: Props) {
           <StopSVG />
         </button>
 
-        <Form method="post" className="flex">
-          <input type="hidden" name="id" value={id} />
-          <button
-            onClick={handleDownload}
-            name="_action"
-            value="increment_download"
-            className="flex items-center color-white hover:color-red-800"
-          >
-            <DownloadSVG />
-          </button>
-        </Form>
+        <button
+          onClick={handleDownload}
+          name="_action"
+          value="increment_download"
+          className="flex items-center color-white hover:color-red-800"
+        >
+          <DownloadSVG />
+        </button>
 
         <label className="flex-1 flex items-center">
           <input
@@ -243,6 +256,7 @@ function formatTime(seconds: number) {
   return `${minutes}:${secondsLeft < 10 ? '0' : ''}${secondsLeft}`;
 }
 
+// TODO use remix ?
 // save file from url
 async function saveFileWithFetch(url: string) {
   const filename = url.substring(url.lastIndexOf('/') + 1).split('?')[0];

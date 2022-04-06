@@ -30,12 +30,12 @@ export const action: ActionFunction = async ({ request }) => {
 
   if (_action === 'increment_listening') {
     await supabase.rpc('increment_listening', { row_id: values.id });
-    return redirect('/');
+    return { ok: values.id };
   }
 
   if (_action === 'increment_download') {
     await supabase.rpc('increment_download', { row_id: values.id });
-    return redirect('/');
+    return { ok: values.id };
   }
 
   return null;
