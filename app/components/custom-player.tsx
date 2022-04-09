@@ -128,7 +128,6 @@ export function CustomPlayer(props: Props) {
         onTimeUpdate={handleTime}
         onLoadedMetadata={handleDuration}
         onEnded={handleEnd}
-        preload="metadata"
       />
 
       <div className="flex justify-between text-xs">
