@@ -1,12 +1,11 @@
-import { json, Link, useLoaderData } from 'remix';
 import { supabase } from '~/utils/supabase.server';
-
-import type { LoaderFunction, ActionFunction } from 'remix';
-import type { Song } from '~/models/song';
-import { CustomPlayer } from '~/components/custom-player';
-import { useState } from 'react';
-import { CountDown } from '~/components/countdown';
 import { commitDataSession, getDataSession } from '~/utils/cookie.server';
+import { CountDown } from '~/components/countdown';
+import { AudioPlayer } from '~/components/audio-player';
+import { json } from '@remix-run/node';
+import { useLoaderData } from '@remix-run/react';
+import type { Song } from '~/models/song';
+import type { LoaderFunction, ActionFunction } from '@remix-run/node';
 
 type Loader = {
   songs: Array<Song>;
@@ -82,43 +81,18 @@ export const action: ActionFunction = async ({ request }) => {
 
 export default function Index() {
   const { songs, dates, user_likes } = useLoaderData<Loader>();
-  const [currentSong, setCurrentSong] = useState(0);
 
   return (
     <main className="bg-black text-white font-manrope px-4xl">
       <section className="min-h-[100vh] grid place-items-center">
         <div>
           <h1 className="text-clamp-lg font-800 text-center">OB production</h1>
-          <CountDown targetDate={dates.targetDate} timeLeft={dates.timeLeft} />
           <p>Orphe Bandana</p>
         </div>
       </section>
 
-      <section className="min-h-[100vh] grid place-items-center">
-        <div className="grid gap-y-4">
-          <h2 className="text-clamp-md font-800">
-            En attendant le nouveau projet
-          </h2>
-          <ul className="h-md overflow-y-scroll">
-            {songs.map((song) => (
-              <li
-                key={song.id}
-                className="px-4 py-4 odd:bg-zinc-900 even:bg-zinc-800"
-              >
-                <CustomPlayer
-                  id={song.id}
-                  src={song.source}
-                  title={song.title}
-                  likes={song.likes}
-                  listening={song.listening}
-                  currentSong={currentSong}
-                  setCurrentSong={setCurrentSong}
-                  hasLiked={user_likes.includes(`${song.id}`)}
-                />
-              </li>
-            ))}
-          </ul>
-        </div>
+      <section className="min-h-[100vh] grid items-center">
+        <AudioPlayer songs={songs} />
       </section>
     </main>
   );

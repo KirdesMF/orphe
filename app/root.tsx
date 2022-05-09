@@ -5,8 +5,8 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-} from 'remix';
-import type { MetaFunction, LinksFunction } from 'remix';
+} from '@remix-run/react';
+import type { LinksFunction, MetaFunction } from '@remix-run/node';
 
 import resetStyles from './styles/reset.css';
 import mainStyles from './styles/main.css';

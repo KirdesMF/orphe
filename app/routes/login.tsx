@@ -1,13 +1,9 @@
-import {
-  ActionFunction,
-  Form,
-  json,
-  LoaderFunction,
-  redirect,
-  useActionData,
-} from 'remix';
 import { commitSession, getSession } from '~/utils/cookie.server';
 import { supabase } from '~/utils/supabase.server';
+
+import { json, redirect } from '@remix-run/node';
+import { Form, useActionData } from '@remix-run/react';
+import type { LoaderFunction, ActionFunction } from '@remix-run/node';
 
 export const meta = () => ({
   title: 'Login',
