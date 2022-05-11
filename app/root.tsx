@@ -33,12 +33,12 @@ export const meta: MetaFunction = () => ({
 
 export default function App() {
   return (
-    <html lang="en">
+    <html lang="fr">
       <head>
         <Meta />
         <Links />
       </head>
-      <body>
+      <body className="bg-black text-white font-manrope">
         <Outlet />
         <ScrollRestoration />
         <Scripts />

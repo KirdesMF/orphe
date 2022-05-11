@@ -83,15 +83,14 @@ export default function Index() {
   const { songs, dates, user_likes } = useLoaderData<Loader>();
 
   return (
-    <main className="bg-black text-white font-manrope px-4xl">
-      <section className="min-h-[100vh] grid place-items-center">
+    <main className="px-4xl">
+      <section className="min-h-[100vh] flex flex-col items-center justify-center">
         <div>
           <h1 className="text-clamp-lg font-800 text-center">OB production</h1>
           <p>Orphe Bandana</p>
         </div>
       </section>
-
-      <section className="min-h-[100vh] grid items-center">
+      <section className="min-h-[100vh] flex flex-col justify-center items-center">
         <AudioPlayer songs={songs} />
       </section>
     </main>

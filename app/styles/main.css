@@ -35,3 +35,85 @@
   --step-3xl: clamp(1.13rem, calc(-0.17rem + 6.54vw), 4.73rem);
   --step-4xl: clamp(1.21rem, calc(-0.5rem + 8.55vw), 5.91rem);
 }
+
+/********************* Range input *******************************/
+/* https://www.smashingmagazine.com/2021/12/create-custom-range-input-consistent-browsers/ */
+/* for chromium browser the range color progress is handle with js */
+
+.range {
+  --thumb-height: 12px;
+  --track-height: 2px;
+  --radius-track: 1rem;
+  --radius-thumb: 50%;
+
+  --color-track: hsl(0, 0%, 78%);
+  --color-thumb: hsl(0, 0%, 100%);
+  --color-progress: hsl(0, 94%, 79%);
+
+  --cursor-track: grab;
+
+  --progress: 0%;
+  --gradient-progress: linear-gradient(
+    to right,
+    var(--color-progress) 0%,
+    var(--color-progress) var(--progress),
+    var(--color-track) var(--progress),
+    var(--color-track) 100%
+  );
+}
+
+/************* CHROME SAFARI OPERA EDGE *****************/
+
+input[type='range'].range {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  width: 100%;
+  cursor: var(--cursor-track);
+}
+
+input[type='range'].range:active {
+  cursor: grabbing;
+}
+
+/* track */
+input[type='range'].range::-webkit-slider-runnable-track {
+  background: var(--gradient-progress);
+  border-radius: var(--radius-track);
+  height: var(--track-height);
+}
+
+/* thumb */
+input[type='range'].range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+
+  background-color: var(--color-thumb);
+  height: var(--thumb-height);
+  width: var(--thumb-height);
+  border-radius: var(--radius-thumb);
+  margin-top: calc(var(--track-height) / 2 - var(--thumb-height) / 2);
+}
+
+/******************** FIREFOX *******************************/
+
+/* track */
+input[type='range'].range::-moz-range-track {
+  background: var(--color-track);
+  border-radius: var(--radius-track);
+  height: var(--track-height);
+}
+
+/* thumb */
+input[type='range'].range::-moz-range-thumb {
+  border: none;
+  background: var(--color-thumb);
+  height: var(--thumb-height);
+  width: var(--thumb-height);
+  border-radius: var(--radius-thumb);
+}
+
+/* range progress */
+input[type='range'].range::-moz-range-progress {
+  background-color: var(--color-progress);
+}
