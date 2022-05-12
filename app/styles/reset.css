@@ -62,6 +62,7 @@ select {
 button {
   background-color: unset;
   border: none;
+  color: inherit;
 }
 
 /* Remove all animations and transitions for people that prefer not to see them */

@@ -5,8 +5,8 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-} from 'remix';
-import type { MetaFunction, LinksFunction } from 'remix';
+} from '@remix-run/react';
+import type { LinksFunction, MetaFunction } from '@remix-run/node';
 
 import resetStyles from './styles/reset.css';
 import mainStyles from './styles/main.css';
@@ -33,12 +33,12 @@ export const meta: MetaFunction = () => ({
 
 export default function App() {
   return (
-    <html lang="en">
+    <html lang="fr">
       <head>
         <Meta />
         <Links />
       </head>
-      <body>
+      <body className="bg-black text-white font-manrope">
         <Outlet />
         <ScrollRestoration />
         <Scripts />

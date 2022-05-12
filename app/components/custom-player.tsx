@@ -1,7 +1,7 @@
 // a custom media player component
 
 import React, { useEffect, useRef, useState } from 'react';
-import { useFetcher } from 'remix';
+import { useFetcher } from '@remix-run/react';
 
 type Props = {
   id: number;
@@ -299,10 +299,13 @@ function LikeSVG() {
 }
 
 // convert seconds to minutes and seconds
-function formatTime(seconds: number) {
-  const minutes = Math.floor(seconds / 60);
-  const secondsLeft = Math.floor(seconds % 60);
-  return `${minutes}:${secondsLeft < 10 ? '0' : ''}${secondsLeft}`;
+function formatTime(time: number) {
+  const minutes = Math.floor(time / 60);
+  const minutesLeft = minutes < 10 ? `0${minutes}` : minutes;
+  const seconds = Math.floor(time % 60);
+  const secondsLeft = seconds < 10 ? `0${seconds}` : seconds;
+
+  return `${minutesLeft}:${secondsLeft}`;
 }
 
 // TODO use remix ?

@@ -1,8 +1,11 @@
-import { json, Link, LoaderFunction, redirect, useLoaderData } from 'remix';
+import { json, redirect } from '@remix-run/node';
+import { useLoaderData, Link } from '@remix-run/react';
 import { TableStats } from '~/components/table-stats';
-import type { Song } from '~/models/song';
 import { getSession } from '~/utils/cookie.server';
 import { supabase } from '~/utils/supabase.server';
+
+import type { LoaderFunction } from '@remix-run/node';
+import type { Song } from '~/models/song';
 
 export const loader: LoaderFunction = async ({ request }) => {
   const session = await getSession(request.headers.get('Cookie'));
