@@ -3,8 +3,8 @@ export function OrpheLogo() {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="100%"
-      height="100%"
+      width="20vmax"
+      height="20vmax"
       viewBox="0 0 145.5 145.5"
     >
       <motion.g
