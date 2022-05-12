@@ -34,9 +34,46 @@
   --step-2xl: clamp(1.06rem, calc(0.07rem + 4.95vw), 3.78rem);
   --step-3xl: clamp(1.13rem, calc(-0.17rem + 6.54vw), 4.73rem);
   --step-4xl: clamp(1.21rem, calc(-0.5rem + 8.55vw), 5.91rem);
+
+  --radius-thumb: 20px;
+  --color-scrollbar-thumb: hsla(0, 0%, 100%, 0.5);
+  --color-scrollbar-track: hsl(0, 2%, 16%);
+  --color-scrollbar-track-hover: hsla(0, 0%, 100%, 0.2);
+  --color-scrollbar-track-active: hsla(0, 0%, 100%, 0.3);
 }
 
-/********************* Range input *******************************/
+/*----------------------------------------------------------------*/
+/* scroll bar */
+/*----------------------------------------------------------------*/
+
+/******************** FIREFOX *******************************/
+* {
+  scrollbar-color: var(--color-scrollbar-thumb) var(--color-scrollbar-track);
+  scrollbar-width: thin;
+}
+
+/******************** CHROME SAFARI OPERA EDGE *****************/
+/* scrollbar */
+*::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* track */
+*::-webkit-scrollbar-track {
+  background: var(--color-scrollbar-track);
+}
+
+/* thumb */
+*::-webkit-scrollbar-thumb {
+  background: var(--color-scrollbar-thumb); /* color of the thumb */
+  border-radius: var(--radius-thumb); /* radius of the thumb */
+  border: 2px solid var(--color-scrollbar-track); /* border of the thumb, create padding */
+}
+
+/*----------------------------------------------------------------*/
+/* Range input */
+/*----------------------------------------------------------------*/
+
 /* https://www.smashingmagazine.com/2021/12/create-custom-range-input-consistent-browsers/ */
 /* for chromium browser the range color progress is handle with js */
 
@@ -46,9 +83,9 @@
   --radius-track: 1rem;
   --radius-thumb: 50%;
 
-  --color-track: hsl(0, 0%, 78%);
+  --color-track: hsl(0, 0%, 100%);
   --color-thumb: hsl(0, 0%, 100%);
-  --color-progress: hsl(0, 94%, 79%);
+  --color-progress: hsl(0, 95%, 62%);
 
   --cursor-track: grab;
 

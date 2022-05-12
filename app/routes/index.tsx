@@ -1,11 +1,13 @@
 import { supabase } from '~/utils/supabase.server';
 import { commitDataSession, getDataSession } from '~/utils/cookie.server';
-import { CountDown } from '~/components/countdown';
 import { AudioPlayer } from '~/components/audio-player';
 import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import type { Song } from '~/models/song';
 import type { LoaderFunction, ActionFunction } from '@remix-run/node';
+import { OrpheLogo } from '~/components/orphe-logo';
+
+import { motion } from 'framer-motion';
 
 type Loader = {
   songs: Array<Song>;
@@ -85,10 +87,13 @@ export default function Index() {
   return (
     <main className="px-4xl">
       <section className="min-h-[100vh] flex flex-col items-center justify-center">
-        <div>
-          <h1 className="text-clamp-lg font-800 text-center">OB production</h1>
-          <p>Orphe Bandana</p>
-        </div>
+        <motion.div
+          animate={{ opacity: [0, 1] }}
+          className="grid place-items-center gap-y-2"
+        >
+          <OrpheLogo />
+          <h1 className="text-sm">OB production présente</h1>
+        </motion.div>
       </section>
       <section className="min-h-[100vh] flex flex-col justify-center items-center">
         <AudioPlayer songs={songs} />

@@ -1,8 +1,7 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { clsx, formatTime } from '~/utils/utils';
 import * as Icon from './icons';
 import type { Song } from '~/models/song';
-import { clsx, formatTime } from '~/utils/utils';
-import * as Slider from '@radix-ui/react-slider';
 
 type Props = {
   songs: Array<Song>;
@@ -12,6 +11,8 @@ export function AudioPlayer(props: Props) {
   // references
   const audioRef = useRef<HTMLAudioElement>(null); // audio element
   const sliderRef = useRef<HTMLInputElement>(null); // slider element
+  const containerRef = useRef<HTMLUListElement>(null); // -container list element
+  const didMountRef = useRef(false); // did mount flag
 
   // states
   const [isPlaying, setIsPlaying] = useState(false);
@@ -21,7 +22,8 @@ export function AudioPlayer(props: Props) {
 
   // effects
   function handleLoaded() {
-    setDuration(audioRef.current!.duration);
+    setDuration(audioRef.current?.duration || 0);
+    sliderRef.current?.style.setProperty('--progress', `${0}%`);
     isPlaying ? audioRef.current?.play() : audioRef.current?.pause();
   }
 
@@ -42,26 +44,41 @@ export function AudioPlayer(props: Props) {
     setIsPlaying((prev) => !prev);
   }
 
-  function handleProgress() {
-    const { min, max, valueAsNumber } = sliderRef.current!;
-    const newTime =
-      ((valueAsNumber - Number(min)) / (Number(max) - Number(min))) * 100;
-
-    sliderRef.current?.style.setProperty('--progress', `${newTime}%`);
-    audioRef.current!.currentTime = valueAsNumber || 0;
+  function handleChange() {
+    audioRef.current!.currentTime = sliderRef.current?.valueAsNumber || 0;
+    setProgressVar();
   }
 
   function handleTime() {
-    sliderRef.current!.value = `${Math.floor(
-      audioRef.current?.currentTime || 0
-    )}`;
-    setCurrentTime(audioRef.current!.currentTime);
+    const currentTime = audioRef.current?.currentTime || 0;
+
+    sliderRef.current!.value = `${Math.floor(currentTime)}`;
+    setProgressVar();
+    setCurrentTime(currentTime);
+  }
+
+  function setProgressVar() {
+    const { min, max, valueAsNumber } = sliderRef.current!;
+    const progress =
+      Math.floor(
+        ((valueAsNumber - Number(min)) / (Number(max) - Number(min))) * 100
+      ) || 0;
+
+    sliderRef.current?.style.setProperty('--progress', `${progress}%`);
   }
 
   function handlePlayListItem(idx: number) {
     setCurrentTrack(idx);
     setIsPlaying(true);
   }
+
+  useEffect(() => {
+    if (didMountRef.current) {
+      containerRef.current?.children[currentTrack].scrollIntoView({
+        behavior: 'smooth',
+      });
+    } else didMountRef.current = true;
+  }, [currentTrack]);
 
   return (
     <div className="w-[min(100%,35rem)] grid gap-y-12">
@@ -100,7 +117,7 @@ export function AudioPlayer(props: Props) {
             <span className="sr-only">Slider range seek track</span>
             <input
               ref={sliderRef}
-              onChange={handleProgress}
+              onChange={handleChange}
               type="range"
               name="seek"
               id="seek"
@@ -116,29 +133,34 @@ export function AudioPlayer(props: Props) {
         </div>
       </article>
 
-      <ul className="relative overflow-y-scroll max-h-60">
+      <ul
+        ref={containerRef}
+        className="relative overflow-y-scroll max-h-60 snap-y"
+      >
         {props.songs.map((song, index) => (
           <li
             key={song.id}
             className={clsx(
-              currentTrack === index ? 'bg-fuchsia color-black' : '',
-              'flex items-center justify-between px-2 py-1 hover:bg-green transition-colors-200'
+              currentTrack === index ? 'bg-green color-black' : 'color-white',
+              'flex items-center justify-between px-2 py-1 transition-colors-200 hover:bg-green-600 hover:color-black'
             )}
           >
             <span>{song.title}</span>
             <div className="flex items-center">
               <button
-                className="w-8 h-8 color-red"
-                onClick={() => handlePlayListItem(index)}
+                className="w-8 h-8 "
+                onClick={() => {
+                  handlePlayListItem(index);
+                }}
               >
                 <Icon.PlaySVG />
                 <span className="sr-only">Play track {song.title}</span>
               </button>
-              <button className="w-8 h-8 color-red">
+              <button className="w-8 h-8">
                 <Icon.LikeSVG />
                 <span className="sr-only">Like track {song.title}</span>
               </button>
-              <button className="w-8 h-8 color-red">
+              <button className="w-8 h-8">
                 <Icon.DownloadSVG />
                 <span className="sr-only">Download track {song.title}</span>
               </button>
