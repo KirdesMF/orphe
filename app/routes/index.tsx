@@ -12,7 +12,6 @@ import { motion } from 'framer-motion';
 type Loader = {
   songs: Array<Song>;
   user_likes: Array<string>;
-  dates: { targetDate: number; timeLeft: number };
 };
 
 export const loader: LoaderFunction = async ({ request }) => {
@@ -23,13 +22,9 @@ export const loader: LoaderFunction = async ({ request }) => {
     .select('id,source,title,likes,listening')
     .order('id');
 
-  const targetDate = new Date('04/30/2022').getTime();
-  const timeLeft = targetDate - new Date().getTime();
-
   return json({
     songs,
     user_likes: session.get('user_likes') || [],
-    dates: { targetDate, timeLeft },
   });
 };
 
@@ -82,7 +77,7 @@ export const action: ActionFunction = async ({ request }) => {
 };
 
 export default function Index() {
-  const { songs, dates, user_likes } = useLoaderData<Loader>();
+  const { songs, user_likes } = useLoaderData<Loader>();
 
   return (
     <main className="px-4xl">
@@ -96,7 +91,7 @@ export default function Index() {
         </motion.div>
       </section>
       <section className="min-h-[100vh] flex flex-col justify-center items-center">
-        <AudioPlayer songs={songs} />
+        <AudioPlayer songs={songs} user_likes={user_likes} />
       </section>
     </main>
   );

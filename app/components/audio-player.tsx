@@ -1,16 +1,18 @@
 import { useEffect, useRef, useState } from 'react';
-import { clsx, formatTime } from '~/utils/utils';
+import { clsx, formatTime, saveFileWithFetch } from '~/utils/utils';
 import * as Icon from './icons';
 import type { Song } from '~/models/song';
+import { AnimatePresence, motion } from 'framer-motion';
+import { useFetcher } from '@remix-run/react';
 
 type Props = {
   songs: Array<Song>;
+  user_likes: Array<string>;
 };
 
 export function AudioPlayer(props: Props) {
   // references
   const audioRef = useRef<HTMLAudioElement>(null); // audio element
-  const sliderRef = useRef<HTMLInputElement>(null); // slider element
   const containerRef = useRef<HTMLUListElement>(null); // -container list element
   const didMountRef = useRef(false); // did mount flag
 
@@ -20,23 +22,44 @@ export function AudioPlayer(props: Props) {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
 
+  const fetcher = useFetcher();
+
   // effects
+  // fire when song data is loaded
   function handleLoaded() {
-    setDuration(audioRef.current?.duration || 0);
-    sliderRef.current?.style.setProperty('--progress', `${0}%`);
+    setDuration(audioRef.current?.duration ?? 0);
     isPlaying ? audioRef.current?.play() : audioRef.current?.pause();
   }
 
+  // handle onChange event of slider
+  function handleChange(evt: React.ChangeEvent<HTMLInputElement>) {
+    audioRef.current!.currentTime = evt.target.valueAsNumber;
+  }
+
+  // handle onTimeUpdate event of audio element
+  function handleTimeUpdate() {
+    setCurrentTime(audioRef.current?.currentTime ?? 0);
+  }
+
+  function setProgressCSSVar() {
+    const value = (currentTime / duration) * 100;
+    const progress = !isNaN(value) ? value : 0;
+
+    return progress;
+  }
+
   function handleNextTrack() {
-    currentTrack === props.songs.length - 1
-      ? setCurrentTrack(0)
-      : setCurrentTrack((curr) => curr + 1);
+    if (currentTrack === props.songs.length - 1) {
+      return setCurrentTrack(0);
+    }
+    setCurrentTrack((curr) => curr + 1);
   }
 
   function handlePrevTrack() {
-    currentTrack === 0
-      ? setCurrentTrack(props.songs.length - 1)
-      : setCurrentTrack((curr) => curr - 1);
+    if (currentTrack === 0) {
+      return setCurrentTrack(props.songs.length - 1);
+    }
+    setCurrentTrack((curr) => curr - 1);
   }
 
   function handlePlay() {
@@ -44,34 +67,38 @@ export function AudioPlayer(props: Props) {
     setIsPlaying((prev) => !prev);
   }
 
-  function handleChange() {
-    audioRef.current!.currentTime = sliderRef.current?.valueAsNumber || 0;
-    setProgressVar();
-  }
-
-  function handleTime() {
-    const currentTime = audioRef.current?.currentTime || 0;
-
-    sliderRef.current!.value = `${Math.floor(currentTime)}`;
-    setProgressVar();
-    setCurrentTime(currentTime);
-  }
-
-  function setProgressVar() {
-    const { min, max, valueAsNumber } = sliderRef.current!;
-    const progress =
-      Math.floor(
-        ((valueAsNumber - Number(min)) / (Number(max) - Number(min))) * 100
-      ) || 0;
-
-    sliderRef.current?.style.setProperty('--progress', `${progress}%`);
-  }
-
   function handlePlayListItem(idx: number) {
     setCurrentTrack(idx);
     setIsPlaying(true);
   }
 
+  function handleDownload(id: number, src: string) {
+    fetcher.submit(
+      {
+        id: `${id}`,
+        _action: 'increment_download',
+      },
+      { method: 'post' }
+    );
+    saveFileWithFetch(src);
+  }
+
+  function handleLike(id: number) {
+    fetcher.submit(
+      {
+        id: `${id}`,
+        like: isUserLiked(id) ? '-1' : '1',
+        _action: 'update_likes',
+      },
+      { method: 'post' }
+    );
+  }
+
+  function isUserLiked(id: number) {
+    return props.user_likes.includes(`${id}`);
+  }
+
+  // use to avoid scrolling behavior on first render
   useEffect(() => {
     if (didMountRef.current) {
       containerRef.current?.children[currentTrack].scrollIntoView({
@@ -86,7 +113,7 @@ export function AudioPlayer(props: Props) {
         <audio
           ref={audioRef}
           src={props.songs[currentTrack].source}
-          onTimeUpdate={handleTime}
+          onTimeUpdate={handleTimeUpdate}
           onLoadedMetadata={handleLoaded}
           onEnded={handleNextTrack}
         ></audio>
@@ -101,10 +128,32 @@ export function AudioPlayer(props: Props) {
             <Icon.PrevSVG />
             <span className="sr-only">Previous song</span>
           </button>
+
           <button className="w-25 h-25 color-red" onClick={handlePlay}>
-            {isPlaying ? <Icon.PauseSVG /> : <Icon.PlaySVG />}
+            <AnimatePresence exitBeforeEnter>
+              {isPlaying ? (
+                <motion.span
+                  key="pause"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                >
+                  <Icon.PauseSVG />
+                </motion.span>
+              ) : (
+                <motion.span
+                  key="play"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                >
+                  <Icon.PlaySVG />
+                </motion.span>
+              )}
+            </AnimatePresence>
             <span className="sr-only">{isPlaying ? 'Pause' : 'Play'}</span>
           </button>
+
           <button className="w-20 h-20 color-red" onClick={handleNextTrack}>
             <Icon.NextSVG />
             <span className="sr-only">Next song</span>
@@ -116,16 +165,20 @@ export function AudioPlayer(props: Props) {
           <label className="grid w-full">
             <span className="sr-only">Slider range seek track</span>
             <input
-              ref={sliderRef}
-              onChange={handleChange}
+              className="range"
               type="range"
               name="seek"
               id="seek"
               step={0.1}
-              defaultValue={0}
               min={0}
-              max={Math.floor(duration)}
-              className="range"
+              max={duration}
+              value={currentTime}
+              onChange={handleChange}
+              style={
+                {
+                  '--progress': `${setProgressCSSVar()}%`,
+                } as React.CSSProperties
+              }
             />
           </label>
 
@@ -142,13 +195,13 @@ export function AudioPlayer(props: Props) {
             key={song.id}
             className={clsx(
               currentTrack === index ? 'bg-green color-black' : 'color-white',
-              'flex items-center justify-between px-2 py-1 transition-colors-200 hover:bg-green-600 hover:color-black'
+              'flex items-center justify-between px-2 py-1 transition-colors-200 hover:bg-white/15'
             )}
           >
             <span>{song.title}</span>
             <div className="flex items-center">
               <button
-                className="w-8 h-8 "
+                className="w-8 h-8 hover:color-emerald"
                 onClick={() => {
                   handlePlayListItem(index);
                 }}
@@ -156,11 +209,22 @@ export function AudioPlayer(props: Props) {
                 <Icon.PlaySVG />
                 <span className="sr-only">Play track {song.title}</span>
               </button>
-              <button className="w-8 h-8">
+
+              <button
+                className={clsx(
+                  'w-8 h-8 hover:color-red-800',
+                  isUserLiked(song.id) ? 'color-red' : ''
+                )}
+                onClick={() => handleLike(song.id)}
+              >
                 <Icon.LikeSVG />
                 <span className="sr-only">Like track {song.title}</span>
               </button>
-              <button className="w-8 h-8">
+
+              <button
+                onClick={() => handleDownload(song.id, song.source)}
+                className="w-8 h-8 hover:color-red"
+              >
                 <Icon.DownloadSVG />
                 <span className="sr-only">Download track {song.title}</span>
               </button>

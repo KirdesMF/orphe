@@ -11,3 +11,17 @@ export function formatTime(time: number) {
 export function clsx(...args: string[]) {
   return args.join(' ');
 }
+
+export async function saveFileWithFetch(url: string) {
+  const filename = url.substring(url.lastIndexOf('/') + 1).split('?')[0];
+  const res = await fetch(url);
+  const blob = await res.blob();
+
+  const a = document.createElement('a');
+  a.href = window.URL.createObjectURL(blob);
+  a.download = filename;
+  a.style.display = 'none';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
