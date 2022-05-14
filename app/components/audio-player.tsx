@@ -234,7 +234,7 @@ export function AudioPlayer(props: Props) {
             )}
           >
             <span>{song.title}</span>
-            <div className="flex items-center gap-x-1 relative">
+            <div className="flex items-center">
               <button
                 className="hover:color-emerald grid place-items-center"
                 onClick={() => {
@@ -242,9 +242,9 @@ export function AudioPlayer(props: Props) {
                 }}
               >
                 {isTrackItemPlaying(index) ? (
-                  <Icon.PauseSVG className="w-5 h-5" />
+                  <Icon.PauseSVG className="w-4 h-4" />
                 ) : (
-                  <Icon.PlaySVG className="w-5 h-5" />
+                  <Icon.PlaySVG className="w-4 h-4" />
                 )}
                 <span className="sr-only">Play track {song.title}</span>
               </button>
@@ -268,7 +268,7 @@ export function AudioPlayer(props: Props) {
                     className="h-5 w-5 rounded-full block border-yellow border-1"
                   />
                 ) : (
-                  <Icon.LikeSVG className="w-5 h-5" />
+                  <Icon.LikeSVG className="w-4 h-4" />
                 )}
                 <span className="sr-only">Like track {song.title}</span>
               </button>
@@ -289,7 +289,7 @@ export function AudioPlayer(props: Props) {
                     className="h-5 w-5 rounded-full block border-yellow border-1"
                   />
                 ) : (
-                  <Icon.DownloadSVG className="w-5 h-5" />
+                  <Icon.DownloadSVG className="w-4 h-4" />
                 )}
                 <span className="sr-only">Download track {song.title}</span>
               </button>
