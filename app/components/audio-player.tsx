@@ -80,7 +80,7 @@ export function AudioPlayer(props: Props) {
 
   function handlePlayListItem(idx: number) {
     setCurrentTrack(idx);
-    handlePlay();
+    setIsPlaying(true);
   }
 
   function handleDownload(id: number, src: string) {
