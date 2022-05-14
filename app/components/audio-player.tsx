@@ -25,14 +25,17 @@ export function AudioPlayer(props: Props) {
 
   const { submit, submission } = useFetcher();
 
+  // set css variable for gradient input
+  const setProgressCSSVar = (currentTime / duration) * 100;
+
   // fire when song data is loaded
   function handleLoaded() {
     hasListened.current = false;
     isPlaying ? audioRef.current.play() : audioRef.current.pause();
     setCurrentTime(0);
-    setDuration(
-      isNaN(audioRef.current.duration) ? 0 : audioRef.current.duration
-    );
+
+    if (isNaN(audioRef.current.duration)) setDuration(0);
+    else setDuration(audioRef.current.duration);
   }
 
   // handle onChange event of slider
@@ -102,34 +105,18 @@ export function AudioPlayer(props: Props) {
     );
   }
 
-  function isUserLiked(id: number) {
-    return props.user_likes.includes(`${id}`);
-  }
+  const isUserLiked = (id: number) => props.user_likes.includes(`${id}`);
+  const isTrackItemPlaying = (idx: number) => idx === currentTrack && isPlaying;
 
-  function isTrackItemPlaying(idx: number) {
-    return idx === currentTrack && isPlaying;
-  }
-
-  function isLiking(id: number) {
+  function isSubmitting(
+    id: number,
+    action: 'update_likes' | 'increment_download'
+  ) {
     return (
       submission &&
-      submission.formData.get('_action') === 'update_likes' &&
+      submission.formData.get('_action') === action &&
       submission.formData.get('id') === `${id}`
     );
-  }
-
-  function isDownloading(id: number) {
-    return (
-      submission &&
-      submission.formData.get('_action') === 'increment_download' &&
-      submission.formData.get('id') === `${id}`
-    );
-  }
-
-  // set css variable for gradient input
-  function setProgressCSSVar() {
-    if (duration === 0) return 0;
-    return (currentTime / duration) * 100;
   }
 
   // effects
@@ -144,9 +131,8 @@ export function AudioPlayer(props: Props) {
 
   // set duration with use effect because onload event is not fired on render
   useEffect(() => {
-    setDuration(
-      isNaN(audioRef.current.duration) ? 0 : audioRef.current.duration
-    );
+    if (isNaN(audioRef.current.duration)) setDuration(0);
+    else setDuration(audioRef.current.duration);
   }, []);
 
   return (
@@ -225,7 +211,7 @@ export function AudioPlayer(props: Props) {
               onChange={handleChange}
               style={
                 {
-                  '--progress': `${setProgressCSSVar()}%`,
+                  '--progress': `${setProgressCSSVar}%`,
                 } as React.CSSProperties
               }
             />
@@ -248,9 +234,9 @@ export function AudioPlayer(props: Props) {
             )}
           >
             <span>{song.title}</span>
-            <div className="flex items-center">
+            <div className="flex items-center gap-x-1">
               <button
-                className="w-8 h-8 color-inherit hover:color-emerald"
+                className="w-7 h-7 color-white hover:color-emerald"
                 onClick={() => {
                   handlePlayListItem(index);
                 }}
@@ -264,15 +250,16 @@ export function AudioPlayer(props: Props) {
               </button>
 
               <button
+                disabled={isSubmitting(song.id, 'update_likes')}
                 name="_action"
                 value="update_likes"
                 className={clsx(
-                  'w-8 h-8 hover:color-red-800',
-                  isUserLiked(song.id) ? 'color-red' : 'color-inherit'
+                  'w-7 h-7 hover:color-red-800',
+                  isUserLiked(song.id) ? 'color-red' : 'color-white'
                 )}
                 onClick={() => handleLike(song.id)}
               >
-                {isLiking(song.id) ? (
+                {isSubmitting(song.id, 'update_likes') ? (
                   <motion.span
                     animate={{
                       scale: [0.5, 1],
@@ -287,12 +274,13 @@ export function AudioPlayer(props: Props) {
               </button>
 
               <button
+                disabled={isSubmitting(song.id, 'increment_download')}
                 name="_action"
                 value="increment_download"
                 onClick={() => handleDownload(song.id, song.source)}
-                className="w-8 h-8 hover:color-red color-inherit"
+                className="w-7 h-7 hover:color-red color-white"
               >
-                {isDownloading(song.id) ? (
+                {isSubmitting(song.id, 'increment_download') ? (
                   <motion.span
                     animate={{
                       scale: [0.5, 1],
