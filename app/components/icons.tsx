@@ -116,8 +116,8 @@ export function LikeSVG() {
       version="1.1"
       aria-hidden
       focusable={false}
-      width="100%"
-      height="100%"
+      width="24px"
+      height="24px"
       viewBox="0 0 24 24"
     >
       <path
