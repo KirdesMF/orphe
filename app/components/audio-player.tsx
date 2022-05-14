@@ -234,17 +234,17 @@ export function AudioPlayer(props: Props) {
             )}
           >
             <span>{song.title}</span>
-            <div className="grid grid-flow-col gap-x-1 relative">
+            <div className="flex items-center gap-x-1 relative">
               <button
-                className="w-7 h-7 hover:color-emerald relative"
+                className="hover:color-emerald grid place-items-center"
                 onClick={() => {
                   handlePlayListItem(index);
                 }}
               >
                 {isTrackItemPlaying(index) ? (
-                  <Icon.PauseSVG />
+                  <Icon.PauseSVG className="w-5 h-5" />
                 ) : (
-                  <Icon.PlaySVG />
+                  <Icon.PlaySVG className="w-5 h-5" />
                 )}
                 <span className="sr-only">Play track {song.title}</span>
               </button>
@@ -254,7 +254,7 @@ export function AudioPlayer(props: Props) {
                 name="_action"
                 value="update_likes"
                 className={clsx(
-                  'w-7 h-7 hover:color-red-800',
+                  'hover:color-red-800 grid place-items-center',
                   isUserLiked(song.id) ? 'color-red' : ''
                 )}
                 onClick={() => handleLike(song.id)}
@@ -268,7 +268,7 @@ export function AudioPlayer(props: Props) {
                     className="h-5 w-5 rounded-full block border-yellow border-1"
                   />
                 ) : (
-                  <Icon.LikeSVG />
+                  <Icon.LikeSVG className="w-5 h-5" />
                 )}
                 <span className="sr-only">Like track {song.title}</span>
               </button>
@@ -278,7 +278,7 @@ export function AudioPlayer(props: Props) {
                 name="_action"
                 value="increment_download"
                 onClick={() => handleDownload(song.id, song.source)}
-                className="w-7 h-7 hover:color-red"
+                className="grid place-items-center hover:color-red"
               >
                 {isSubmitting(song.id, 'increment_download') ? (
                   <motion.span
@@ -289,7 +289,7 @@ export function AudioPlayer(props: Props) {
                     className="h-5 w-5 rounded-full block border-yellow border-1"
                   />
                 ) : (
-                  <Icon.DownloadSVG />
+                  <Icon.DownloadSVG className="w-5 h-5" />
                 )}
                 <span className="sr-only">Download track {song.title}</span>
               </button>

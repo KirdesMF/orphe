@@ -1,4 +1,4 @@
-export function PlaySVG() {
+export function PlaySVG({ className }: { className?: string }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -8,6 +8,7 @@ export function PlaySVG() {
       width="100%"
       height="100%"
       viewBox="0 0 24 24"
+      className={className}
     >
       <path
         fill="currentColor"
@@ -17,7 +18,7 @@ export function PlaySVG() {
   );
 }
 
-export function PauseSVG() {
+export function PauseSVG({ className }: { className?: string }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -27,13 +28,14 @@ export function PauseSVG() {
       width="100%"
       height="100%"
       viewBox="0 0 24 24"
+      className={className}
     >
       <path fill="currentColor" d="M10 4H5v16h5V4zm9 0h-5v16h5V4z"></path>
     </svg>
   );
 }
 
-export function SoundSVG() {
+export function SoundSVG({ className }: { className?: string }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -43,6 +45,7 @@ export function SoundSVG() {
       width="100%"
       height="100%"
       viewBox="0 0 24 24"
+      className={className}
     >
       <path
         fill="currentColor"
@@ -52,7 +55,7 @@ export function SoundSVG() {
   );
 }
 
-export function MuteSVG() {
+export function MuteSVG({ className }: { className?: string }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -62,6 +65,7 @@ export function MuteSVG() {
       width="100%"
       height="100%"
       viewBox="0 0 24 24"
+      className={className}
     >
       <path
         fill="currentColor"
@@ -71,7 +75,7 @@ export function MuteSVG() {
   );
 }
 
-export function NextSVG() {
+export function NextSVG({ className }: { className?: string }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -81,6 +85,7 @@ export function NextSVG() {
       width="100%"
       height="100%"
       viewBox="0 0 24 24"
+      className={className}
     >
       <path
         fill="currentColor"
@@ -90,7 +95,7 @@ export function NextSVG() {
   );
 }
 
-export function PrevSVG() {
+export function PrevSVG({ className }: { className?: string }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -100,6 +105,7 @@ export function PrevSVG() {
       width="100%"
       height="100%"
       viewBox="0 0 24 24"
+      className={className}
     >
       <path
         fill="currentColor"
@@ -109,26 +115,7 @@ export function PrevSVG() {
   );
 }
 
-export function LikeSVG() {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      version="1.1"
-      aria-hidden
-      focusable={false}
-      width="24px"
-      height="24px"
-      viewBox="0 0 24 24"
-    >
-      <path
-        fill="currentColor"
-        d="M12.001 4.529a5.998 5.998 0 0 1 8.242.228a6 6 0 0 1 .236 8.236l-8.48 8.492l-8.478-8.492a6 6 0 0 1 8.48-8.464z"
-      ></path>
-    </svg>
-  );
-}
-
-export function DownloadSVG() {
+export function LikeSVG({ className }: { className?: string }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -138,6 +125,27 @@ export function DownloadSVG() {
       width="100%"
       height="100%"
       viewBox="0 0 24 24"
+      className={className}
+    >
+      <path
+        fill="currentColor"
+        d="M12.001 4.529a5.998 5.998 0 0 1 8.242.228a6 6 0 0 1 .236 8.236l-8.48 8.492l-8.478-8.492a6 6 0 0 1 8.48-8.464z"
+      ></path>
+    </svg>
+  );
+}
+
+export function DownloadSVG({ className }: { className?: string }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      version="1.1"
+      aria-hidden
+      focusable={false}
+      width="100%"
+      height="100%"
+      viewBox="0 0 24 24"
+      className={className}
     >
       <path
         fill="currentColor"
