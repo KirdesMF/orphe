@@ -234,17 +234,17 @@ export function AudioPlayer(props: Props) {
             )}
           >
             <span>{song.title}</span>
-            <div className="flex items-center">
+            <div className="flex items-center gap-x-2">
               <button
-                className="hover:color-emerald grid place-items-center"
+                className="hover:color-emerald relative h-4 w-4"
                 onClick={() => {
                   handlePlayListItem(index);
                 }}
               >
                 {isTrackItemPlaying(index) ? (
-                  <Icon.PauseSVG className="w-4 h-4" />
+                  <Icon.PauseSVG className="absolute inset-0" />
                 ) : (
-                  <Icon.PlaySVG className="w-4 h-4" />
+                  <Icon.PlaySVG className="absolute inset-0" />
                 )}
                 <span className="sr-only">Play track {song.title}</span>
               </button>
@@ -254,7 +254,7 @@ export function AudioPlayer(props: Props) {
                 name="_action"
                 value="update_likes"
                 className={clsx(
-                  'hover:color-red-800 grid place-items-center',
+                  'hover:color-red-800 relative h-4 w-4',
                   isUserLiked(song.id) ? 'color-red' : ''
                 )}
                 onClick={() => handleLike(song.id)}
@@ -265,10 +265,10 @@ export function AudioPlayer(props: Props) {
                       scale: [0.5, 1],
                       transition: { duration: 0.2, repeat: Infinity },
                     }}
-                    className="h-5 w-5 rounded-full block border-yellow border-1"
+                    className="h-4 w-4 rounded-full block border-yellow border-1 relative"
                   />
                 ) : (
-                  <Icon.LikeSVG className="w-4 h-4" />
+                  <Icon.LikeSVG className="absolute inset-0" />
                 )}
                 <span className="sr-only">Like track {song.title}</span>
               </button>
@@ -278,7 +278,7 @@ export function AudioPlayer(props: Props) {
                 name="_action"
                 value="increment_download"
                 onClick={() => handleDownload(song.id, song.source)}
-                className="grid place-items-center hover:color-red"
+                className="h-4 w-4 relative hover:color-red"
               >
                 {isSubmitting(song.id, 'increment_download') ? (
                   <motion.span
@@ -286,10 +286,10 @@ export function AudioPlayer(props: Props) {
                       scale: [0.5, 1],
                       transition: { duration: 0.2, repeat: Infinity },
                     }}
-                    className="h-5 w-5 rounded-full block border-yellow border-1"
+                    className="h-4 w-4 rounded-full block border-yellow border-1"
                   />
                 ) : (
-                  <Icon.DownloadSVG className="w-4 h-4" />
+                  <Icon.DownloadSVG className="absolute inset-0" />
                 )}
                 <span className="sr-only">Download track {song.title}</span>
               </button>
