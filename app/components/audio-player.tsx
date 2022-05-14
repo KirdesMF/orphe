@@ -12,7 +12,7 @@ type Props = {
 
 export function AudioPlayer(props: Props) {
   // references
-  const audioRef = useRef<HTMLAudioElement>(null); // audio element
+  const audioRef = useRef<HTMLAudioElement>(null!); // audio element
   const containerRef = useRef<HTMLUListElement>(null); // -container list element
   const didMountRef = useRef(false); // did mount flag
   const hasListened = useRef(false); // has listened flag
@@ -28,9 +28,11 @@ export function AudioPlayer(props: Props) {
   // fire when song data is loaded
   function handleLoaded() {
     hasListened.current = false;
-    isPlaying ? audioRef.current?.play() : audioRef.current?.pause();
-    setDuration(audioRef.current?.duration ?? 0);
+    isPlaying ? audioRef.current.play() : audioRef.current.pause();
     setCurrentTime(0);
+    setDuration(
+      isNaN(audioRef.current.duration) ? 0 : audioRef.current.duration
+    );
   }
 
   // handle onChange event of slider
@@ -142,7 +144,9 @@ export function AudioPlayer(props: Props) {
 
   // set duration with use effect because onload event is not fired on render
   useEffect(() => {
-    setDuration(audioRef.current?.duration ?? 0);
+    setDuration(
+      isNaN(audioRef.current.duration) ? 0 : audioRef.current.duration
+    );
   }, []);
 
   return (
@@ -216,7 +220,7 @@ export function AudioPlayer(props: Props) {
               id="seek"
               step={0.1}
               min={0}
-              max={duration}
+              max={duration ?? 0}
               value={currentTime}
               onChange={handleChange}
               style={
@@ -246,7 +250,7 @@ export function AudioPlayer(props: Props) {
             <span>{song.title}</span>
             <div className="flex items-center">
               <button
-                className="w-8 h-8 hover:color-emerald"
+                className="w-8 h-8 color-inherit hover:color-emerald"
                 onClick={() => {
                   handlePlayListItem(index);
                 }}
@@ -264,7 +268,7 @@ export function AudioPlayer(props: Props) {
                 value="update_likes"
                 className={clsx(
                   'w-8 h-8 hover:color-red-800',
-                  isUserLiked(song.id) ? 'color-red' : ''
+                  isUserLiked(song.id) ? 'color-red' : 'color-inherit'
                 )}
                 onClick={() => handleLike(song.id)}
               >
@@ -286,7 +290,7 @@ export function AudioPlayer(props: Props) {
                 name="_action"
                 value="increment_download"
                 onClick={() => handleDownload(song.id, song.source)}
-                className="w-8 h-8 hover:color-red"
+                className="w-8 h-8 hover:color-red color-inherit"
               >
                 {isDownloading(song.id) ? (
                   <motion.span
