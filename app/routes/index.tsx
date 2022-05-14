@@ -6,7 +6,6 @@ import { useLoaderData } from '@remix-run/react';
 import type { Song } from '~/models/song';
 import type { LoaderFunction, ActionFunction } from '@remix-run/node';
 import { OrpheLogo } from '~/components/orphe-logo';
-
 import { motion } from 'framer-motion';
 
 type Loader = {

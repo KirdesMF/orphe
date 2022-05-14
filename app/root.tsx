@@ -13,9 +13,9 @@ import mainStyles from './styles/main.css';
 import unocssStyles from './styles/unocss.css';
 
 export const links: LinksFunction = () => [
-  { rel: 'stylesheet', href: resetStyles },
-  { rel: 'stylesheet', href: mainStyles },
-  { rel: 'stylesheet', href: unocssStyles },
+  { rel: 'stylesheet', href: resetStyles, as: 'style' },
+  { rel: 'stylesheet', href: mainStyles, as: 'style' },
+  { rel: 'stylesheet', href: unocssStyles, as: 'style' },
   {
     rel: 'preload',
     as: 'font',

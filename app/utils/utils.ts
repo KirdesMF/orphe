@@ -12,15 +12,15 @@ export function clsx(...args: Array<string>) {
   return args.join(' ');
 }
 
-export async function saveFileWithFetch(url: string) {
-  const filename = url.substring(url.lastIndexOf('/') + 1).split('?')[0];
+export async function saveFileWithFetch(url: string, title: string) {
+  const filename = `${title}.mp3`;
   const res = await fetch(url);
   const blob = await res.blob();
-
   const a = document.createElement('a');
+
   a.href = window.URL.createObjectURL(blob);
   a.download = filename;
-  a.style.display = 'none';
+  a.style.setProperty('display', 'none');
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);

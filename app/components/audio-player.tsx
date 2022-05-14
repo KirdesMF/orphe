@@ -83,23 +83,25 @@ export function AudioPlayer(props: Props) {
     setIsPlaying(true);
   }
 
-  function handleDownload(id: number, src: string) {
+  function handleDownload(id: number, src: string, title: string) {
     submit(
       {
-        id: `${id}`,
         _action: 'increment_download',
+        id: `${id}`,
+        src,
+        title,
       },
       { method: 'post' }
     );
-    saveFileWithFetch(src);
+    saveFileWithFetch(src, title);
   }
 
   function handleLike(id: number) {
     submit(
       {
+        _action: 'update_likes',
         id: `${id}`,
         like: isUserLiked(id) ? '-1' : '1',
-        _action: 'update_likes',
       },
       { method: 'post' }
     );
@@ -144,7 +146,10 @@ export function AudioPlayer(props: Props) {
           onTimeUpdate={handleTimeUpdate}
           onLoadedMetadata={handleLoaded}
           onEnded={handleNextTrack}
-        ></audio>
+        >
+          <source src={props.songs[currentTrack].source} type="audio/mpeg" />
+          <p>Your browser does not support the audio element.</p>
+        </audio>
 
         <h3 className="text-clamp-xl">{props.songs[currentTrack].title}</h3>
 
@@ -277,7 +282,7 @@ export function AudioPlayer(props: Props) {
                 disabled={isSubmitting(song.id, 'increment_download')}
                 name="_action"
                 value="increment_download"
-                onClick={() => handleDownload(song.id, song.source)}
+                onClick={() => handleDownload(song.id, song.source, song.title)}
                 className="h-4 w-4 relative hover:color-red"
               >
                 {isSubmitting(song.id, 'increment_download') ? (
