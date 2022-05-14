@@ -234,9 +234,9 @@ export function AudioPlayer(props: Props) {
             )}
           >
             <span>{song.title}</span>
-            <div className="flex items-center gap-x-1">
+            <div className="grid grid-flow-col gap-x-1">
               <button
-                className="w-7 h-7 color-white hover:color-emerald shrink-0"
+                className="w-7 h-7 hover:color-emerald shrink-0"
                 onClick={() => {
                   handlePlayListItem(index);
                 }}
@@ -255,7 +255,7 @@ export function AudioPlayer(props: Props) {
                 value="update_likes"
                 className={clsx(
                   'w-7 h-7 hover:color-red-800',
-                  isUserLiked(song.id) ? 'color-red' : 'color-white'
+                  isUserLiked(song.id) ? 'color-red' : ''
                 )}
                 onClick={() => handleLike(song.id)}
               >
@@ -278,7 +278,7 @@ export function AudioPlayer(props: Props) {
                 name="_action"
                 value="increment_download"
                 onClick={() => handleDownload(song.id, song.source)}
-                className="w-7 h-7 hover:color-red color-white"
+                className="w-7 h-7 hover:color-red"
               >
                 {isSubmitting(song.id, 'increment_download') ? (
                   <motion.span
