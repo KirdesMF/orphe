@@ -234,9 +234,9 @@ export function AudioPlayer(props: Props) {
             )}
           >
             <span>{song.title}</span>
-            <div className="grid grid-flow-col gap-x-1">
+            <div className="grid grid-flow-col gap-x-1 relative">
               <button
-                className="w-7 h-7 hover:color-emerald"
+                className="w-7 h-7 hover:color-emerald relative"
                 onClick={() => {
                   handlePlayListItem(index);
                 }}
