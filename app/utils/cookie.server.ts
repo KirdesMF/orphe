@@ -1,4 +1,5 @@
 import { createCookieSessionStorage } from '@remix-run/node';
+import { daysToSeconds } from './utils';
 
 export const { getSession, commitSession, destroySession } =
   createCookieSessionStorage({
@@ -7,7 +8,7 @@ export const { getSession, commitSession, destroySession } =
       httpOnly: true,
       secure: true,
       sameSite: 'lax',
-      maxAge: 60 * 60 * 24 * 7, // 7 days
+      maxAge: daysToSeconds(365),
       secrets: ['secret'],
     },
   });
@@ -20,7 +21,7 @@ export const {
   cookie: {
     name: 'user:data',
     sameSite: 'lax',
-    maxAge: 60 * 60 * 24 * 7, // 7 days
+    maxAge: daysToSeconds(365),
     secrets: ['other-secret'],
   },
 });

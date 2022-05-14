@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
+import { useFetcher } from '@remix-run/react';
+import { AnimatePresence, motion } from 'framer-motion';
 import { clsx, formatTime, saveFileWithFetch } from '~/utils/utils';
 import * as Icon from './icons';
 import type { Song } from '~/models/song';
-import { AnimatePresence, motion } from 'framer-motion';
-import { useFetcher } from '@remix-run/react';
 
 type Props = {
   songs: Array<Song>;
@@ -15,6 +15,7 @@ export function AudioPlayer(props: Props) {
   const audioRef = useRef<HTMLAudioElement>(null); // audio element
   const containerRef = useRef<HTMLUListElement>(null); // -container list element
   const didMountRef = useRef(false); // did mount flag
+  const hasListened = useRef(false); // has listened flag
 
   // states
   const [isPlaying, setIsPlaying] = useState(false);
@@ -22,13 +23,14 @@ export function AudioPlayer(props: Props) {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
 
-  const fetcher = useFetcher();
+  const { submit, submission } = useFetcher();
 
-  // effects
   // fire when song data is loaded
   function handleLoaded() {
-    setDuration(audioRef.current?.duration ?? 0);
+    hasListened.current = false;
     isPlaying ? audioRef.current?.play() : audioRef.current?.pause();
+    setDuration(audioRef.current?.duration ?? 0);
+    setCurrentTime(0);
   }
 
   // handle onChange event of slider
@@ -39,13 +41,17 @@ export function AudioPlayer(props: Props) {
   // handle onTimeUpdate event of audio element
   function handleTimeUpdate() {
     setCurrentTime(audioRef.current?.currentTime ?? 0);
-  }
 
-  function setProgressCSSVar() {
-    const value = (currentTime / duration) * 100;
-    const progress = !isNaN(value) ? value : 0;
-
-    return progress;
+    if (currentTime >= 30 && !hasListened.current) {
+      hasListened.current = true;
+      submit(
+        {
+          id: `${props.songs[currentTrack].id}`,
+          _action: 'increment_listening',
+        },
+        { method: 'post' }
+      );
+    }
   }
 
   function handleNextTrack() {
@@ -69,11 +75,11 @@ export function AudioPlayer(props: Props) {
 
   function handlePlayListItem(idx: number) {
     setCurrentTrack(idx);
-    setIsPlaying(true);
+    handlePlay();
   }
 
   function handleDownload(id: number, src: string) {
-    fetcher.submit(
+    submit(
       {
         id: `${id}`,
         _action: 'increment_download',
@@ -84,7 +90,7 @@ export function AudioPlayer(props: Props) {
   }
 
   function handleLike(id: number) {
-    fetcher.submit(
+    submit(
       {
         id: `${id}`,
         like: isUserLiked(id) ? '-1' : '1',
@@ -98,14 +104,46 @@ export function AudioPlayer(props: Props) {
     return props.user_likes.includes(`${id}`);
   }
 
-  // use to avoid scrolling behavior on first render
+  function isTrackItemPlaying(idx: number) {
+    return idx === currentTrack && isPlaying;
+  }
+
+  function isLiking(id: number) {
+    return (
+      submission &&
+      submission.formData.get('_action') === 'update_likes' &&
+      submission.formData.get('id') === `${id}`
+    );
+  }
+
+  function isDownloading(id: number) {
+    return (
+      submission &&
+      submission.formData.get('_action') === 'increment_download' &&
+      submission.formData.get('id') === `${id}`
+    );
+  }
+
+  // set css variable for gradient input
+  function setProgressCSSVar() {
+    if (duration === 0) return 0;
+    return (currentTime / duration) * 100;
+  }
+
+  // effects
   useEffect(() => {
+    // use to avoid scrolling behavior on first render
     if (didMountRef.current) {
       containerRef.current?.children[currentTrack].scrollIntoView({
         behavior: 'smooth',
       });
     } else didMountRef.current = true;
   }, [currentTrack]);
+
+  // set duration with use effect because onload event is not fired on render
+  useEffect(() => {
+    setDuration(audioRef.current?.duration ?? 0);
+  }, []);
 
   return (
     <div className="w-[min(100%,35rem)] grid gap-y-12">
@@ -121,22 +159,24 @@ export function AudioPlayer(props: Props) {
         <h3 className="text-clamp-xl">{props.songs[currentTrack].title}</h3>
 
         <div className="flex items-center justify-center gap-5">
-          <button
+          <motion.button
             className="w-20 h-20 color-red rounded"
             onClick={handlePrevTrack}
+            whileTap={{ scale: 0.8 }}
           >
             <Icon.PrevSVG />
             <span className="sr-only">Previous song</span>
-          </button>
+          </motion.button>
 
           <button className="w-25 h-25 color-red" onClick={handlePlay}>
-            <AnimatePresence exitBeforeEnter>
+            <AnimatePresence exitBeforeEnter initial={false}>
               {isPlaying ? (
                 <motion.span
                   key="pause"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
+                  transition={{ duration: 0.1 }}
                 >
                   <Icon.PauseSVG />
                 </motion.span>
@@ -146,6 +186,7 @@ export function AudioPlayer(props: Props) {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
+                  transition={{ duration: 0.1 }}
                 >
                   <Icon.PlaySVG />
                 </motion.span>
@@ -154,10 +195,14 @@ export function AudioPlayer(props: Props) {
             <span className="sr-only">{isPlaying ? 'Pause' : 'Play'}</span>
           </button>
 
-          <button className="w-20 h-20 color-red" onClick={handleNextTrack}>
+          <motion.button
+            whileTap={{ scale: 0.8 }}
+            className="w-20 h-20 color-red"
+            onClick={handleNextTrack}
+          >
             <Icon.NextSVG />
             <span className="sr-only">Next song</span>
-          </button>
+          </motion.button>
         </div>
 
         <div className="flex gap-5 w-full">
@@ -195,7 +240,7 @@ export function AudioPlayer(props: Props) {
             key={song.id}
             className={clsx(
               currentTrack === index ? 'bg-green color-black' : 'color-white',
-              'flex items-center justify-between px-2 py-1 transition-colors-200 hover:bg-white/15'
+              'flex items-center justify-between px-2 py-1 transition-colors-200 hover:bg-white/15 hover:color-white'
             )}
           >
             <span>{song.title}</span>
@@ -206,26 +251,54 @@ export function AudioPlayer(props: Props) {
                   handlePlayListItem(index);
                 }}
               >
-                <Icon.PlaySVG />
+                {isTrackItemPlaying(index) ? (
+                  <Icon.PauseSVG />
+                ) : (
+                  <Icon.PlaySVG />
+                )}
                 <span className="sr-only">Play track {song.title}</span>
               </button>
 
               <button
+                name="_action"
+                value="update_likes"
                 className={clsx(
                   'w-8 h-8 hover:color-red-800',
                   isUserLiked(song.id) ? 'color-red' : ''
                 )}
                 onClick={() => handleLike(song.id)}
               >
-                <Icon.LikeSVG />
+                {isLiking(song.id) ? (
+                  <motion.span
+                    animate={{
+                      scale: [0.5, 1],
+                      transition: { duration: 0.2, repeat: Infinity },
+                    }}
+                    className="h-5 w-5 rounded-full block border-yellow border-1"
+                  />
+                ) : (
+                  <Icon.LikeSVG />
+                )}
                 <span className="sr-only">Like track {song.title}</span>
               </button>
 
               <button
+                name="_action"
+                value="increment_download"
                 onClick={() => handleDownload(song.id, song.source)}
                 className="w-8 h-8 hover:color-red"
               >
-                <Icon.DownloadSVG />
+                {isDownloading(song.id) ? (
+                  <motion.span
+                    animate={{
+                      scale: [0.5, 1],
+                      transition: { duration: 0.2, repeat: Infinity },
+                    }}
+                    className="h-5 w-5 rounded-full block border-yellow border-1"
+                  />
+                ) : (
+                  <Icon.DownloadSVG />
+                )}
                 <span className="sr-only">Download track {song.title}</span>
               </button>
             </div>

@@ -8,7 +8,7 @@ export function formatTime(time: number) {
 }
 
 // join class names function
-export function clsx(...args: string[]) {
+export function clsx(...args: Array<string>) {
   return args.join(' ');
 }
 
@@ -24,4 +24,9 @@ export async function saveFileWithFetch(url: string) {
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
+}
+
+// set days to seconds
+export function daysToSeconds(days: number) {
+  return days * 24 * 60 * 60;
 }
