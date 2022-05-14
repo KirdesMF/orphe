@@ -2,6 +2,7 @@ export function PlaySVG() {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
+      version="1.1"
       aria-hidden
       focusable={false}
       width="100%"
@@ -20,6 +21,7 @@ export function PauseSVG() {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
+      version="1.1"
       aria-hidden
       focusable={false}
       width="100%"
@@ -35,6 +37,7 @@ export function SoundSVG() {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
+      version="1.1"
       aria-hidden
       focusable={false}
       width="100%"
@@ -53,6 +56,7 @@ export function MuteSVG() {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
+      version="1.1"
       aria-hidden
       focusable={false}
       width="100%"
@@ -71,6 +75,7 @@ export function NextSVG() {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
+      version="1.1"
       aria-hidden
       focusable={false}
       width="100%"
@@ -89,6 +94,7 @@ export function PrevSVG() {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
+      version="1.1"
       aria-hidden
       focusable={false}
       width="100%"
@@ -107,6 +113,7 @@ export function LikeSVG() {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
+      version="1.1"
       aria-hidden
       focusable={false}
       width="100%"
@@ -125,6 +132,7 @@ export function DownloadSVG() {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
+      version="1.1"
       aria-hidden
       focusable={false}
       width="100%"
