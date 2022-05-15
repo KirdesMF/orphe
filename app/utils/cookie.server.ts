@@ -21,6 +21,8 @@ export const {
   cookie: {
     name: 'user:data',
     sameSite: 'lax',
+    secure: true,
+    httpOnly: true,
     maxAge: daysToSeconds(365),
     secrets: ['other-secret'],
   },

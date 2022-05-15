@@ -32,13 +32,11 @@ export const action: ActionFunction = async ({ request }) => {
   const { _action, ...values } = Object.fromEntries(form);
 
   if (_action === 'increment_listening') {
-    await supabase.rpc('increment_listening', { row_id: values.id });
-    return { ok: values.id };
+    return await supabase.rpc('increment_listening', { row_id: values.id });
   }
 
   if (_action === 'increment_download') {
-    await supabase.rpc('increment_download', { row_id: values.id });
-    return { ok: values.id };
+    return await supabase.rpc('increment_download', { row_id: values.id });
   }
 
   if (_action === 'update_likes') {
@@ -63,7 +61,7 @@ export const action: ActionFunction = async ({ request }) => {
     }
 
     return json(
-      { ok: values.id },
+      { song: values.id },
       {
         headers: {
           'Set-Cookie': await commitDataSession(session),
@@ -71,8 +69,6 @@ export const action: ActionFunction = async ({ request }) => {
       }
     );
   }
-
-  return null;
 };
 
 export default function Index() {
