@@ -1,4 +1,4 @@
-import { supabase } from '~/utils/supabase.server';
+import { getSongs, supabase } from '~/utils/supabase.server';
 import { commitDataSession, getDataSession } from '~/utils/cookie.server';
 import { AudioPlayer } from '~/components/audio-player';
 import { json } from '@remix-run/node';
@@ -14,12 +14,10 @@ type Loader = {
 };
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const session = await getDataSession(request.headers.get('Cookie'));
-
-  const { data: songs } = await supabase
-    .from<Song>('Song')
-    .select('id,source,title,likes,listening')
-    .order('id');
+  const [session, songs] = await Promise.all([
+    getDataSession(request.headers.get('Cookie')),
+    getSongs(),
+  ]);
 
   return json({
     songs,

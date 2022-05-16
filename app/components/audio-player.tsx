@@ -16,7 +16,7 @@ type AudioPlayerProps = {
 
 export function AudioPlayer(props: AudioPlayerProps) {
   // references
-  const audioRef = useRef<HTMLAudioElement>(null!); // audio element
+  const audioRef = useRef<HTMLAudioElement>(null); // audio element
   const hasListened = useRef(false); // has listened flag
 
   // states
@@ -34,23 +34,31 @@ export function AudioPlayer(props: AudioPlayerProps) {
   };
 
   // fire when song data is loaded
+  // * does not fire consistently
   function handleLoaded() {
     hasListened.current = false;
-    isPlaying ? audioRef.current.play() : audioRef.current.pause();
+    isPlaying ? audioRef.current?.play() : audioRef.current?.pause();
     setCurrentTime(0);
     setDuration(
-      !isNaN(audioRef.current.duration) ? audioRef.current.duration : 1
+      !isNaN(audioRef.current!.duration) ? audioRef.current!.duration : 0
     );
   }
 
+  // because of ssr we need to wait for the audio element to be render
+  // to set the duration of the track
+  useEffect(() => {
+    setDuration(audioRef.current!.duration);
+  }, []);
+
   // handle onChange event of slider
   function handleChange(evt: React.ChangeEvent<HTMLInputElement>) {
-    audioRef.current.currentTime = evt.target.valueAsNumber;
+    audioRef.current!.currentTime = evt.target.valueAsNumber;
   }
 
   // handle onTimeUpdate event of audio element
+  // * maybe use setInterval here to update currentTime
   function handleTimeUpdate() {
-    const time = Math.round(audioRef.current.currentTime);
+    const time = Math.round(audioRef.current!.currentTime);
     setCurrentTime(time);
 
     if (time >= 30 && !hasListened.current) {
@@ -80,7 +88,7 @@ export function AudioPlayer(props: AudioPlayerProps) {
   }
 
   function handlePlay() {
-    isPlaying ? audioRef.current.pause() : audioRef.current.play();
+    isPlaying ? audioRef.current?.pause() : audioRef.current?.play();
     setIsPlaying((prev) => !prev);
   }
 
@@ -93,6 +101,7 @@ export function AudioPlayer(props: AudioPlayerProps) {
           onTimeUpdate={handleTimeUpdate}
           onLoadedMetadata={handleLoaded}
           onEnded={handleNextTrack}
+          preload="metadata"
         >
           <source src={props.songs[currentTrack].source} type="audio/mpeg" />
           <p>Your browser does not support the audio element.</p>
