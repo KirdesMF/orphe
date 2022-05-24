@@ -8,4 +8,5 @@ export type Song = {
   likes: number;
   created_at: string;
   updated_at: string;
+  video?: string;
 };

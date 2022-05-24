@@ -9,7 +9,7 @@ export const supabase = createClient(
 export async function getSongs() {
   const { data: songs } = await supabase
     .from<Song>('Song')
-    .select('id,source,title,likes,listening')
+    .select('id,source,title,likes,listening,video')
     .order('id');
 
   return songs;

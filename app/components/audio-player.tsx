@@ -47,7 +47,9 @@ export function AudioPlayer(props: AudioPlayerProps) {
   // because of ssr we need to wait for the audio element to be render
   // to set the duration of the track
   useEffect(() => {
-    setDuration(audioRef.current!.duration);
+    setDuration(
+      !isNaN(audioRef.current!.duration) ? audioRef.current!.duration : 0
+    );
   }, []);
 
   // handle onChange event of slider
@@ -103,15 +105,19 @@ export function AudioPlayer(props: AudioPlayerProps) {
           onEnded={handleNextTrack}
           preload="metadata"
         >
-          <source src={props.songs[currentTrack].source} type="audio/mpeg" />
           <p>Your browser does not support the audio element.</p>
         </audio>
 
-        <h3 className="text-clamp-xl">{props.songs[currentTrack].title}</h3>
+        <div>
+          <h3 className="text-clamp-xl">{props.songs[currentTrack].title}</h3>
+          {props.songs[currentTrack].video && (
+            <a href={props.songs[currentTrack].video}>YouTube</a>
+          )}
+        </div>
 
         <div className="flex items-center justify-center gap-5">
           <motion.button
-            className="w-20 h-20 color-red rounded"
+            className="w-20 h-20 color-[var(--red)] rounded"
             onClick={handlePrevTrack}
             whileTap={{ scale: 0.8 }}
           >
@@ -119,7 +125,7 @@ export function AudioPlayer(props: AudioPlayerProps) {
             <span className="sr-only">Previous song</span>
           </motion.button>
 
-          <button className="w-25 h-25 color-red" onClick={handlePlay}>
+          <button className="w-25 h-25 color-[var(--red)]" onClick={handlePlay}>
             <AnimatePresence exitBeforeEnter initial={false}>
               {isPlaying ? (
                 <motion.span
@@ -148,7 +154,7 @@ export function AudioPlayer(props: AudioPlayerProps) {
 
           <motion.button
             whileTap={{ scale: 0.8 }}
-            className="w-20 h-20 color-red"
+            className="w-20 h-20 color-[var(--red)]"
             onClick={handleNextTrack}
           >
             <Icon.NextSVG />
@@ -305,7 +311,7 @@ function TrackList({
               value="update_likes"
               className={clsx(
                 'relative h-4 w-4',
-                isUserLiked(song.id) ? 'color-red' : 'color-inherit'
+                isUserLiked(song.id) ? 'color-[var(--red)]' : 'color-inherit'
               )}
               onClick={() => handleLike(song.id)}
             >

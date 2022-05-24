@@ -3,10 +3,12 @@ import { commitDataSession, getDataSession } from '~/utils/cookie.server';
 import { AudioPlayer } from '~/components/audio-player';
 import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
+import { motion } from 'framer-motion';
+import { CCVSVG, OBProdSVG, OrpheGreekSVG } from '~/components/custom-svg';
+
 import type { Song } from '~/models/song';
 import type { LoaderFunction, ActionFunction } from '@remix-run/node';
-import { OrpheLogo } from '~/components/orphe-logo';
-import { motion } from 'framer-motion';
+import { InstagramSVG, SnapChatSVG, TikTokSVG } from '~/components/icons';
 
 type Loader = {
   songs: Array<Song>;
@@ -75,13 +77,50 @@ export default function Index() {
   return (
     <main className="px-4xl">
       <section className="min-h-[100vh] flex flex-col items-center justify-center">
-        <motion.div
-          animate={{ opacity: [0, 1] }}
-          className="grid place-items-center gap-y-2"
-        >
-          <OrpheLogo />
-          <h1 className="text-sm">OB production présente</h1>
-        </motion.div>
+        <div className="grid place-items-center gap-y-5xl">
+          <a
+            href="https://www.instagram.com/obprod/"
+            className="text-white grid place-items-center"
+          >
+            <span className="h-15 w-15">
+              <OBProdSVG />
+            </span>
+          </a>
+
+          <div className="grid">
+            <span className="overflow-hidden">
+              <OrpheGreekSVG />
+            </span>
+            <CCVSVG />
+          </div>
+
+          <nav className="flex gap-x-5">
+            <a
+              className="text-white h-8 w-8"
+              href="https://www.instagram.com/orphe350/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <InstagramSVG />
+            </a>
+            <a
+              className="text-white h-8 w-8"
+              href="https://www.snapchat.com/add/badou-orlov"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <SnapChatSVG />
+            </a>
+            <a
+              className="text-white h-8 w-8"
+              href="https://www.tiktok.com/@orphe350"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <TikTokSVG />
+            </a>
+          </nav>
+        </div>
       </section>
       <section className="min-h-[100vh] flex flex-col justify-center items-center">
         <AudioPlayer songs={songs} user_likes={user_likes} />

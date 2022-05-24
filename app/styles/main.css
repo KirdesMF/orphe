@@ -40,6 +40,9 @@
   --color-scrollbar-track: hsl(0, 2%, 16%);
   --color-scrollbar-track-hover: hsla(0, 0%, 100%, 0.2);
   --color-scrollbar-track-active: hsla(0, 0%, 100%, 0.3);
+
+  --red: hsl(358, 55%, 52%);
+  --black: hsl(358, 40%, 1%);
 }
 
 /*----------------------------------------------------------------*/
