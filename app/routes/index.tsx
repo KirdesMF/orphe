@@ -1,10 +1,9 @@
 import { getSongs, supabase } from '~/utils/supabase.server';
 import { commitDataSession, getDataSession } from '~/utils/cookie.server';
 import { AudioPlayer } from '~/components/audio-player';
+import { CCVSVG, OBProdSVG, OrpheGreekSVG } from '~/components/custom-svg';
 import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
-import { motion } from 'framer-motion';
-import { CCVSVG, OBProdSVG, OrpheGreekSVG } from '~/components/custom-svg';
 
 import type { Song } from '~/models/song';
 import type { LoaderFunction, ActionFunction } from '@remix-run/node';
@@ -87,12 +86,13 @@ export default function Index() {
             </span>
           </a>
 
-          <div className="grid">
+          <h1 className="grid">
+            <span className="sr-only">Orphe CCV NetTape</span>
             <span className="overflow-hidden">
               <OrpheGreekSVG />
             </span>
             <CCVSVG />
-          </div>
+          </h1>
 
           <nav className="flex gap-x-5">
             <a

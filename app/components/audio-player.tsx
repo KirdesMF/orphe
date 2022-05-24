@@ -108,10 +108,20 @@ export function AudioPlayer(props: AudioPlayerProps) {
           <p>Your browser does not support the audio element.</p>
         </audio>
 
-        <div>
-          <h3 className="text-clamp-xl">{props.songs[currentTrack].title}</h3>
+        <div className="relative">
+          <h2 className="text-clamp-xl">{props.songs[currentTrack].title}</h2>
           {props.songs[currentTrack].video && (
-            <a href={props.songs[currentTrack].video}>YouTube</a>
+            <a
+              className="absolute h-8 w-8 top-0 -right-1/2 text-[var(--red)]"
+              href={props.songs[currentTrack].video}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Icon.YouTubeSVG />
+              <span className="sr-only">
+                Clip disponible pour le titre en cours
+              </span>
+            </a>
           )}
         </div>
 
@@ -125,11 +135,12 @@ export function AudioPlayer(props: AudioPlayerProps) {
             <span className="sr-only">Previous song</span>
           </motion.button>
 
-          <button className="w-25 h-25 color-[var(--red)]" onClick={handlePlay}>
+          <button className="color-[var(--red)]" onClick={handlePlay}>
             <AnimatePresence exitBeforeEnter initial={false}>
               {isPlaying ? (
                 <motion.span
                   key="pause"
+                  className="w-25 h-25 block"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
@@ -140,6 +151,7 @@ export function AudioPlayer(props: AudioPlayerProps) {
               ) : (
                 <motion.span
                   key="play"
+                  className="w-25 h-25 block"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
@@ -284,11 +296,24 @@ function TrackList({
         <li
           key={song.id}
           className={clsx(
-            currentTrack === index ? 'bg-green color-black' : 'color-white',
+            currentTrack === index ? 'bg-white color-black' : 'color-white',
             'flex items-center justify-between px-2 py-1 transition-colors-200 hover:bg-white/15 hover:color-white'
           )}
         >
-          <span>{song.title}</span>
+          <div className="flex gap-x-2 items-center">
+            <span>{song.title}</span>
+            {song.video && (
+              <a
+                className="h-5 w-5 top-0 -right-1/2 text-[var(--red)]"
+                href={song.video}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Icon.YouTubeSVG />
+                <span className="sr-only">Clip disponible ce titre</span>
+              </a>
+            )}
+          </div>
 
           <div className="flex items-center gap-x-2">
             <button
@@ -326,9 +351,7 @@ function TrackList({
               ) : (
                 <Icon.LikeSVG className="absolute inset-0" />
               )}
-              {/* <motion.span className="absolute inset-0 grid place-items-center">
-                  <Icon.LikeSVG />
-                </motion.span> */}
+
               <span className="sr-only">Like track {song.title}</span>
             </button>
 
