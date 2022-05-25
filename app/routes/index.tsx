@@ -88,10 +88,12 @@ export default function Index() {
 
           <h1 className="grid">
             <span className="sr-only">Orphe CCV NetTape</span>
-            <span className="overflow-hidden">
+            <span className="overflow-hidden w-[20vmax]">
               <OrpheGreekSVG />
             </span>
-            <CCVSVG />
+            <span className="overflow-hidden w-[20vmax]">
+              <CCVSVG />
+            </span>
           </h1>
 
           <nav className="flex gap-x-5">

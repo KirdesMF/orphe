@@ -109,10 +109,10 @@ export function AudioPlayer(props: AudioPlayerProps) {
         </audio>
 
         <div className="relative">
-          <h2 className="text-clamp-xl">{props.songs[currentTrack].title}</h2>
+          <h2 className="text-3xl">{props.songs[currentTrack].title}</h2>
           {props.songs[currentTrack].video && (
             <a
-              className="absolute h-8 w-8 top-0 -right-1/2 text-[var(--red)]"
+              className="absolute h-5 w-5 top-0 -right-1/2 text-[var(--red)]"
               href={props.songs[currentTrack].video}
               target="_blank"
               rel="noopener noreferrer"
