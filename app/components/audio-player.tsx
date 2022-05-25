@@ -87,6 +87,7 @@ export function AudioPlayer(props: AudioPlayerProps) {
       return setCurrentTrack(props.songs.length - 1);
     }
     setCurrentTrack((curr) => curr - 1);
+    audioRef.current?.play();
   }
 
   function handlePlay() {
