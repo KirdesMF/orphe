@@ -12,8 +12,12 @@ import { useLoaderData } from '@remix-run/react';
 
 import type { Song } from '~/models/song';
 import type { LoaderFunction, ActionFunction } from '@remix-run/node';
-import { InstagramSVG, SnapChatSVG, TikTokSVG } from '~/components/icons';
-import { Marquee } from '~/components/marquee';
+import {
+  ArrowDownSVG,
+  InstagramSVG,
+  SnapChatSVG,
+  TikTokSVG,
+} from '~/components/icons';
 
 type Loader = {
   songs: Array<Song>;
@@ -80,16 +84,9 @@ export default function Index() {
   const { songs, user_likes } = useLoaderData<Loader>();
 
   return (
-    <main className="px-2xl relative">
-      <span
-        aria-hidden
-        className="absolute w-[15vmax] h-[15vmax] text-white -top-10 -left-10 -rotate-15"
-      >
-        <OrpheLyreSVG />
-      </span>
-
+    <main className="px-2xl grid gap-y-10">
       <section className="min-h-[100vh] flex flex-col items-center justify-center">
-        <article className="grid place-items-center gap-y-6xl">
+        <article className="grid place-items-center gap-y-7xl">
           <a
             href="https://www.instagram.com/obprod/"
             className=" grid place-items-center"
@@ -144,14 +141,25 @@ export default function Index() {
         </article>
       </section>
 
-      <article className="grid gap-y-5 justify-center text-2xl">
-        <p className="max-w-[35ch] text-center font-800">
-          En attendant son premier projet, découvrez l'univers d'
+      <article className="grid gap-y-10 place-items-center text-2xl relative">
+        <span
+          aria-hidden
+          className="absolute w-[15vmax] h-[15vmax] text-white -top-10 -left-10 -rotate-15 -z-1"
+        >
+          <OrpheLyreSVG />
+        </span>
+
+        <p className="max-w-[35ch] text-center font-400 text-clamp-sm">
+          En attendant son premier projet, découvrez
           <span className="text-[var(--red)]"> Orphe</span> à travers sa NetTape
           <span className="text-[var(--red)]"> CCV</span>. Les musiques sont
           disponibles en streaming ou en téléchargement
           <span className="text-[var(--red)]"> 100% gratuit</span>.
         </p>
+
+        <span className="h-6 w-6">
+          <ArrowDownSVG />
+        </span>
       </article>
 
       <section className="min-h-[100vh] flex flex-col justify-center items-center">

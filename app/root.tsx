@@ -61,9 +61,9 @@ export const meta: MetaFunction = () => ({
   title: 'Orphe',
   viewport: 'width=device-width,initial-scale=1',
   description:
-    'Ob production présente Orphe et offre sa NetTape CCV en attendant son premier projet. Plus de 20 titres en écoute et téléchargements 100% gratuits',
+    'Ob production et Ob publishing présente Orphe et offre sa NetTape CCV en attendant son premier projet. Plus de 20 titres en écoute et téléchargements 100% gratuits',
   keywords:
-    'ObProd, musique, studio, production, Orphe, NetTape, CCV, titres, écoute, téléchargement, gratuit',
+    'ObProd, ObPublishing musique, studio, production, Orphe, NetTape, CCV, titres, écoute, téléchargement, gratuit',
 });
 
 export default function App() {
@@ -75,7 +75,7 @@ export default function App() {
       </head>
       <body className="bg-[var(--black)] text-white font-manrope">
         <LinearGradientSVG />
-        {/* <Marquee content="Écoutes et téléchargements 100% gratuits" /> */}
+        <Marquee content="Écoutes et téléchargements 100% gratuits" />
         <Outlet />
         <ScrollRestoration />
         <Scripts />
