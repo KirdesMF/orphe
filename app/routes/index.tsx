@@ -80,10 +80,10 @@ export default function Index() {
   const { songs, user_likes } = useLoaderData<Loader>();
 
   return (
-    <main className="px-4xl relative">
+    <main className="px-2xl relative">
       <span
         aria-hidden
-        className="absolute w-50 h-50 text-white -top-10 -left-10 -rotate-15"
+        className="absolute w-[15vmax] h-[15vmax] text-white -top-10 -left-10 -rotate-15"
       >
         <OrpheLyreSVG />
       </span>
@@ -102,10 +102,10 @@ export default function Index() {
 
           <h1 className="grid place-items-center">
             <span className="sr-only">Orphe CCV NetTape</span>
-            <span aria-hidden className="overflow-hidden w-[15vmax]">
+            <span aria-hidden className="overflow-hidden w-[20vmax]">
               <OrpheGreekSVG />
             </span>
-            <span aria-hidden className="overflow-hidden w-[18vmax]">
+            <span aria-hidden className="overflow-hidden w-[20vmax]">
               <CCVSVG />
             </span>
           </h1>
@@ -145,7 +145,7 @@ export default function Index() {
       </section>
 
       <article className="grid gap-y-5 justify-center text-2xl">
-        <p className="max-w-[35ch] text-center">
+        <p className="max-w-[35ch] text-center font-800">
           En attendant son premier projet, découvrez l'univers d'
           <span className="text-[var(--red)]"> Orphe</span> à travers sa NetTape
           <span className="text-[var(--red)]"> CCV</span>. Les musiques sont

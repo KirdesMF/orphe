@@ -92,7 +92,7 @@ export function LinearGradientSVG() {
           y2="0"
           gradientTransform="rotate(90)"
         >
-          <stop offset="10%" stopColor="var(--black)" />
+          <stop offset="5%" stopColor="var(--black)" />
           <stop offset="100%" stopColor="var(--red)" />
         </linearGradient>
 
