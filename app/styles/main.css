@@ -157,3 +157,29 @@ input[type='range'].range::-moz-range-thumb {
 input[type='range'].range::-moz-range-progress {
   background-color: var(--color-progress);
 }
+
+/*----------------------------------------------------------------*/
+/* Marquee */
+
+.marquee {
+  overflow-x: hidden;
+}
+
+.marquee__inner {
+  width: 125%;
+  white-space: nowrap;
+  display: grid;
+  grid-auto-flow: column;
+  align-items: center;
+}
+
+.marquee__inner > span {
+  animation: marquee 5s linear infinite;
+  padding-left: 2rem;
+}
+
+@keyframes marquee {
+  100% {
+    transform: translateX(-100%);
+  }
+}
