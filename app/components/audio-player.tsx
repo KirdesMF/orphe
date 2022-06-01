@@ -211,6 +211,19 @@ export function AudioPlayer(props: AudioPlayerProps) {
         currentTrack={currentTrack}
         setCurrentTrack={setCurrentTrack}
       />
+
+      {props.songs[currentTrack].video && (
+        <a
+          className="text-[var(--red)] flex items-center gap-4"
+          href={props.songs[currentTrack]?.video}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Icon.YouTubeSVG className="h-4 w-4" />
+          <span className="text-white">Clip disponible **</span>
+          <Icon.ExternalLinkSVG className="h-4 w-4" />
+        </a>
+      )}
     </div>
   );
 }
