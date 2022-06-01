@@ -18,6 +18,8 @@ import {
   SnapChatSVG,
   TikTokSVG,
 } from '~/components/icons';
+import { Marquee } from '~/components/marquee';
+import { LinearGradientSVG } from '~/components/custom-svg';
 
 type Loader = {
   songs: Array<Song>;
@@ -84,92 +86,96 @@ export default function Index() {
   const { songs, user_likes } = useLoaderData<Loader>();
 
   return (
-    <main className="px-2xl grid gap-y-10">
-      <section className="min-h-[100vh] flex flex-col items-center justify-center">
-        <article className="grid place-items-center gap-y-7xl">
-          <a
-            href="https://www.instagram.com/obprod/"
-            className=" grid place-items-center animate-load"
-            aria-label="Instagram ObProd"
+    <>
+      <LinearGradientSVG />
+      <Marquee content="Écoutes et téléchargements 100% gratuits" />
+      <main className="px-2xl grid gap-y-10">
+        <section className="min-h-[100vh] flex flex-col items-center justify-center">
+          <article className="grid place-items-center gap-y-7xl">
+            <a
+              href="https://www.instagram.com/obprod/"
+              className=" grid place-items-center animate-load"
+              aria-label="Instagram ObProd"
+            >
+              <span className="h-15 w-15 text-white hover:text-[var(--red)] ease-in duration-200 ">
+                <OBProdSVG />
+              </span>
+            </a>
+
+            <h1 className="grid place-items-center">
+              <span className="sr-only">Orphe CCV NetTape</span>
+              <span aria-hidden className="overflow-hidden w-[20vmax]">
+                <OrpheGreekSVG className="animate-slide" />
+              </span>
+              <span aria-hidden className="overflow-hidden w-[20vmax]">
+                <CCVSVG className="animate-slide-top" />
+              </span>
+            </h1>
+
+            <nav className="flex gap-x-5">
+              <a
+                className="text-white h-8 w-8"
+                href="https://www.instagram.com/orphe350/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram Orphe"
+              >
+                <InstagramSVG />
+              </a>
+
+              <a
+                className="text-white h-8 w-8"
+                href="https://www.snapchat.com/add/badou-orlov"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Snapchat Orphe"
+              >
+                <SnapChatSVG />
+              </a>
+
+              <a
+                className="text-white h-8 w-8"
+                href="https://www.tiktok.com/@orphe350"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="TikTok Orphe"
+              >
+                <TikTokSVG />
+              </a>
+            </nav>
+          </article>
+        </section>
+
+        <article className="grid gap-y-25 place-items-center text-2xl relative">
+          <span
+            aria-hidden
+            className="absolute w-[15vmax] h-[15vmax] text-white -top-10 -left-10 -rotate-15 -z-1"
           >
-            <span className="h-15 w-15 text-white hover:text-[var(--red)] ease-in duration-200 ">
-              <OBProdSVG />
-            </span>
-          </a>
+            <OrpheLyreSVG />
+          </span>
 
-          <h1 className="grid place-items-center">
-            <span className="sr-only">Orphe CCV NetTape</span>
-            <span aria-hidden className="overflow-hidden w-[20vmax]">
-              <OrpheGreekSVG className="animate-slide" />
-            </span>
-            <span aria-hidden className="overflow-hidden w-[20vmax]">
-              <CCVSVG className="animate-slide-top" />
-            </span>
-          </h1>
+          <p className="max-w-[40ch] text-center font-300 text-clamp-sm p-4 border-gradient">
+            En attendant son premier projet, découvrez
+            <span className="text-[var(--red)] font-700"> Orphe</span> à travers
+            sa NetTape
+            <span className="text-[var(--red)] font-700"> CCV</span>. Les
+            musiques sont disponibles en streaming ou en téléchargement
+            <span className="text-[var(--red)] font-700"> 100% gratuit</span>.
+          </p>
 
-          <nav className="flex gap-x-5">
-            <a
-              className="text-white h-8 w-8"
-              href="https://www.instagram.com/orphe350/"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Instagram Orphe"
-            >
-              <InstagramSVG />
-            </a>
-
-            <a
-              className="text-white h-8 w-8"
-              href="https://www.snapchat.com/add/badou-orlov"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Snapchat Orphe"
-            >
-              <SnapChatSVG />
-            </a>
-
-            <a
-              className="text-white h-8 w-8"
-              href="https://www.tiktok.com/@orphe350"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="TikTok Orphe"
-            >
-              <TikTokSVG />
-            </a>
-          </nav>
+          <span className="h-10 w-10 animate-bounce">
+            <ArrowDownSVG />
+          </span>
         </article>
-      </section>
 
-      <article className="grid gap-y-25 place-items-center text-2xl relative">
-        <span
-          aria-hidden
-          className="absolute w-[15vmax] h-[15vmax] text-white -top-10 -left-10 -rotate-15 -z-1"
-        >
-          <OrpheLyreSVG />
-        </span>
+        <section className="min-h-[100vh] flex flex-col justify-center items-center">
+          <AudioPlayer songs={songs} user_likes={user_likes} />
+        </section>
 
-        <p className="max-w-[40ch] text-center font-300 text-clamp-sm p-4 border-gradient">
-          En attendant son premier projet, découvrez
-          <span className="text-[var(--red)] font-700"> Orphe</span> à travers
-          sa NetTape
-          <span className="text-[var(--red)] font-700"> CCV</span>. Les musiques
-          sont disponibles en streaming ou en téléchargement
-          <span className="text-[var(--red)] font-700"> 100% gratuit</span>.
-        </p>
-
-        <span className="h-10 w-10 animate-bounce">
-          <ArrowDownSVG />
-        </span>
-      </article>
-
-      <section className="min-h-[100vh] flex flex-col justify-center items-center">
-        <AudioPlayer songs={songs} user_likes={user_likes} />
-      </section>
-
-      <footer className="py-3 flex items-center justify-center font-200 text-xs">
-        <small>ObProduction - Ob Publishing ©copyright 2022</small>
-      </footer>
-    </main>
+        <footer className="py-3 flex items-center justify-center font-200 text-xs">
+          <small>ObProduction - Ob Publishing ©copyright 2022</small>
+        </footer>
+      </main>
+    </>
   );
 }
