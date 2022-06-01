@@ -167,7 +167,7 @@ export default function Index() {
         <AudioPlayer songs={songs} user_likes={user_likes} />
       </section>
 
-      <footer className="h-[3rem] py-2 flex items-center justify-end font-200">
+      <footer className="py-3 flex items-center justify-center font-200 text-xs">
         <small>ObProduction - Ob Publishing ©copyright 2022</small>
       </footer>
     </main>
