@@ -4,6 +4,12 @@ export default defineConfig({
   presets: [presetUno(), presetIcons()],
   rules: [
     [
+      /^font-roboto$/,
+      () => ({
+        'font-family': `Roboto`,
+      }),
+    ],
+    [
       /^font-manrope$/,
       () => ({
         'font-family': `Manrope`,

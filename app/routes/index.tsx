@@ -141,7 +141,7 @@ export default function Index() {
         </article>
       </section>
 
-      <article className="grid gap-y-10 place-items-center text-2xl relative">
+      <article className="grid gap-y-15 place-items-center text-2xl relative">
         <span
           aria-hidden
           className="absolute w-[15vmax] h-[15vmax] text-white -top-10 -left-10 -rotate-15 -z-1"
@@ -149,15 +149,16 @@ export default function Index() {
           <OrpheLyreSVG />
         </span>
 
-        <p className="max-w-[35ch] text-center font-400 text-clamp-sm">
+        <p className="max-w-[40ch] text-center font-300 text-clamp-sm p-4 border-gradient">
           En attendant son premier projet, découvrez
-          <span className="text-[var(--red)]"> Orphe</span> à travers sa NetTape
-          <span className="text-[var(--red)]"> CCV</span>. Les musiques sont
-          disponibles en streaming ou en téléchargement
-          <span className="text-[var(--red)]"> 100% gratuit</span>.
+          <span className="text-[var(--red)] font-700"> Orphe</span> à travers
+          sa NetTape
+          <span className="text-[var(--red)] font-700"> CCV</span>. Les musiques
+          sont disponibles en streaming ou en téléchargement
+          <span className="text-[var(--red)] font-700"> 100% gratuit</span>.
         </p>
 
-        <span className="h-6 w-6">
+        <span className="h-8 w-8">
           <ArrowDownSVG />
         </span>
       </article>
@@ -165,6 +166,10 @@ export default function Index() {
       <section className="min-h-[100vh] flex flex-col justify-center items-center">
         <AudioPlayer songs={songs} user_likes={user_likes} />
       </section>
+
+      <footer className="h-[3rem] py-2 flex items-center justify-end font-200">
+        <small>ObProduction - Ob Publishing ©copyright 2022</small>
+      </footer>
     </main>
   );
 }

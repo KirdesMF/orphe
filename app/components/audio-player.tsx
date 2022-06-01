@@ -79,8 +79,8 @@ export function AudioPlayer(props: AudioPlayerProps) {
     if (currentTrack === props.songs.length - 1) {
       return setCurrentTrack(0);
     }
+
     setCurrentTrack((curr) => curr + 1);
-    audioRef.current?.play();
   }
 
   function handlePrevTrack() {
@@ -110,7 +110,9 @@ export function AudioPlayer(props: AudioPlayerProps) {
         </audio>
 
         <div className="relative">
-          <h2 className="text-3xl">{props.songs[currentTrack].title}</h2>
+          <h2 className="text-3xl font-200">
+            {props.songs[currentTrack].title}
+          </h2>
           {props.songs[currentTrack].video && (
             <a
               className="absolute h-5 w-5 top-0 -right-1/2 text-[var(--red)]"
@@ -291,7 +293,7 @@ function TrackList({
   return (
     <ul
       ref={containerRef}
-      className="relative overflow-y-scroll max-h-60 snap-y"
+      className="relative overflow-y-scroll max-h-60 snap-y border-2 border-white p-2"
     >
       {songs.map((song, index) => (
         <li

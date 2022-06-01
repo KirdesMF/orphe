@@ -26,6 +26,13 @@ export const links: LinksFunction = () => [
     crossOrigin: 'anonymous',
   },
   {
+    rel: 'preload',
+    as: 'font',
+    href: '/fonts/variables/Roboto-Flex-Variable.ttf',
+    type: 'font/ttf',
+    crossOrigin: 'anonymous',
+  },
+  {
     rel: 'icon',
     href: '/favicon/favicon.ico',
     sizes: 'any',
@@ -73,7 +80,7 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body className="bg-[var(--black)] text-white font-manrope">
+      <body className="bg-[var(--black)] text-white font-roboto">
         <LinearGradientSVG />
         <Marquee content="Écoutes et téléchargements 100% gratuits" />
         <Outlet />

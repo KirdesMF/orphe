@@ -23,6 +23,16 @@
     font-weight: 100 900;
     font-display: swap;
   }
+
+  @font-face {
+    font-family: 'Roboto';
+    src: url('/fonts/variables/Roboto-Flex-Variable.ttf')
+        format('truetype-variations'),
+      url('/fonts/variables/Roboto-Flex-Variable.ttf')
+        format('truetype-variations');
+    font-weight: 100 900;
+    font-display: swap;
+  }
 }
 
 :root {
@@ -88,7 +98,7 @@
 
   --color-track: hsl(0, 0%, 100%);
   --color-thumb: hsl(0, 0%, 100%);
-  --color-progress: hsl(0, 95%, 62%);
+  --color-progress: var(--red);
 
   --cursor-track: grab;
 
@@ -160,6 +170,7 @@ input[type='range'].range::-moz-range-progress {
 
 /*----------------------------------------------------------------*/
 /* Marquee */
+/*----------------------------------------------------------------*/
 
 .marquee {
   overflow-x: hidden;
@@ -171,15 +182,38 @@ input[type='range'].range::-moz-range-progress {
   display: grid;
   grid-auto-flow: column;
   align-items: center;
+  position: relative;
 }
 
 .marquee__inner > span {
-  animation: marquee 5s linear infinite;
+  animation: marquee 30s linear infinite;
   padding-left: 2rem;
+  will-change: transform;
+}
+
+.marquee__inner:hover > span {
+  animation-play-state: paused;
 }
 
 @keyframes marquee {
   100% {
-    transform: translateX(-100%);
+    transform: translateX(-200%);
   }
+}
+
+/*----------------------------------------------------------------*/
+/* Linear gradient borders */
+/*----------------------------------------------------------------*/
+
+.border-gradient {
+  --color-gradient: var(--red);
+  /* prettier-ignore */
+  background: 
+    linear-gradient(to right, var(--color-gradient) 4px, transparent 4px) 0 100%,
+    linear-gradient(to left, var(--color-gradient) 4px, transparent 4px) 100% 0,
+    linear-gradient(to bottom, var(--color-gradient) 4px, transparent 4px) 100% 0,
+    linear-gradient(to top, var(--color-gradient) 4px, transparent 4px) 0 100%;
+
+  background-repeat: no-repeat;
+  background-size: 40px 40px;
 }
