@@ -217,3 +217,42 @@ input[type='range'].range::-moz-range-progress {
   background-repeat: no-repeat;
   background-size: 40px 40px;
 }
+
+.animate-load {
+  animation: fadeIn ease-in 3s;
+}
+
+.animate-slide {
+  animation: slideBotToTop 500ms cubic-bezier(0, 0.38, 0.18, 0.99);
+}
+
+.animate-slide-top {
+  animation: slideTopToBot 1s cubic-bezier(0, 0.38, 0.18, 0.99);
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes slideBotToTop {
+  0% {
+    transform: translateY(100%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideTopToBot {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}

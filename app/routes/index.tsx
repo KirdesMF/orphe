@@ -89,10 +89,10 @@ export default function Index() {
         <article className="grid place-items-center gap-y-7xl">
           <a
             href="https://www.instagram.com/obprod/"
-            className=" grid place-items-center"
+            className=" grid place-items-center animate-load"
             aria-label="Instagram ObProd"
           >
-            <span className="h-15 w-15 text-white hover:text-[var(--red)] ease-in duration-200">
+            <span className="h-15 w-15 text-white hover:text-[var(--red)] ease-in duration-200 ">
               <OBProdSVG />
             </span>
           </a>
@@ -100,10 +100,10 @@ export default function Index() {
           <h1 className="grid place-items-center">
             <span className="sr-only">Orphe CCV NetTape</span>
             <span aria-hidden className="overflow-hidden w-[20vmax]">
-              <OrpheGreekSVG />
+              <OrpheGreekSVG className="animate-slide" />
             </span>
             <span aria-hidden className="overflow-hidden w-[20vmax]">
-              <CCVSVG />
+              <CCVSVG className="animate-slide-top" />
             </span>
           </h1>
 
@@ -141,7 +141,7 @@ export default function Index() {
         </article>
       </section>
 
-      <article className="grid gap-y-15 place-items-center text-2xl relative">
+      <article className="grid gap-y-25 place-items-center text-2xl relative">
         <span
           aria-hidden
           className="absolute w-[15vmax] h-[15vmax] text-white -top-10 -left-10 -rotate-15 -z-1"
@@ -158,7 +158,7 @@ export default function Index() {
           <span className="text-[var(--red)] font-700"> 100% gratuit</span>.
         </p>
 
-        <span className="h-8 w-8">
+        <span className="h-10 w-10 animate-bounce">
           <ArrowDownSVG />
         </span>
       </article>
