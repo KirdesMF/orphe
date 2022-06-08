@@ -19,13 +19,6 @@ export const links: LinksFunction = () => [
   {
     rel: 'preload',
     as: 'font',
-    href: '/fonts/variables/Manrope[wght].woff2',
-    type: 'font/woff2',
-    crossOrigin: 'anonymous',
-  },
-  {
-    rel: 'preload',
-    as: 'font',
     href: '/fonts/variables/Roboto-Flex-Variable.ttf',
     type: 'font/ttf',
     crossOrigin: 'anonymous',
@@ -69,6 +62,7 @@ export const meta: MetaFunction = () => ({
     'Ob production et Ob publishing présente Orphe et offre sa NetTape CCV en attendant son premier projet. Plus de 20 titres en écoute et téléchargements 100% gratuits',
   keywords:
     'ObProd, ObPublishing musique, studio, production, Orphe, NetTape, CCV, titres, écoute, téléchargement, gratuit',
+  'google-site-verification': 'OHr0NH8XR0-Bcp9_3CPHqApWQhCa0QYJsVBfevZBeYg',
 });
 
 export default function App() {
