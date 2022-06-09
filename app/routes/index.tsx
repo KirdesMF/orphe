@@ -14,12 +14,16 @@ import type { Song } from '~/models/song';
 import type { LoaderFunction, ActionFunction } from '@remix-run/node';
 import {
   ArrowDownSVG,
+  HeadPhoneSVG,
   InstagramSVG,
   SnapChatSVG,
   TikTokSVG,
+  YouTubeSVG,
 } from '~/components/icons';
 import { Marquee } from '~/components/marquee';
 import { LinearGradientSVG } from '~/components/custom-svg';
+import { Separator } from '~/components/separator';
+import { SocialMedias } from '~/components/social-media';
 
 type Loader = {
   songs: Array<Song>;
@@ -87,95 +91,138 @@ export default function Index() {
 
   return (
     <>
-      <LinearGradientSVG />
-      <Marquee content="Écoutes et téléchargements 100% gratuits" />
-      <main className="px-2xl grid gap-y-10">
-        <section className="min-h-[100vh] flex flex-col items-center justify-center">
-          <article className="grid place-items-center gap-y-7xl">
-            <a
-              href="https://www.instagram.com/obprod/"
-              className=" grid place-items-center animate-load"
-              aria-label="Instagram ObProd"
-            >
-              <span className="h-15 w-15 text-white hover:text-[var(--red)] ease-in duration-200 ">
-                <OBProdSVG />
-              </span>
-            </a>
+      <main className="px-10">
+        <LinearGradientSVG />
 
-            <h1 className="grid place-items-center">
-              <span className="sr-only">Orphe CCV NetTape</span>
-              <span aria-hidden className="overflow-hidden w-[20vmax]">
-                <OrpheGreekSVG className="animate-slide" />
-              </span>
-              <span aria-hidden className="overflow-hidden w-[20vmax]">
-                <CCVSVG className="animate-slide-top" />
-              </span>
-            </h1>
-
-            <nav className="flex gap-x-5">
+        <section className="py-40">
+          <div className=" max-w-6xl mx-auto">
+            <article className="grid gap-y-8">
+              <h1 className="font-900 italic uppercase text-clamp-4xl max-w-[15ch] leading-none">
+                ORPHE CCV NetTape 2022.
+              </h1>
+              <p className="max-w-[45ch] text-clamp-sm font-100 italic">
+                OB Production et OB Publishing ont sélectionné plus de 20 titres
+                pour composer la netTape CCV afin de vous faire découvrir leur
+                artiste ORPHE en attendant la prochaine sortie de son 1er
+                projet.
+              </p>
               <a
-                className="text-white h-8 w-8"
+                href="#player"
+                className="flex items-center gap-x-2 bg-white text-black border-1 border-white px-4 py-2 rounded-2  w-min"
+              >
+                <span className="h-6 w-6">
+                  <HeadPhoneSVG />
+                </span>
+                <span className="whitespace-nowrap">
+                  Écouter ou télécharger CCV
+                </span>
+              </a>
+            </article>
+          </div>
+        </section>
+
+        <Separator />
+
+        <section className="py-40">
+          <div className="max-w-6xl mx-auto grid gap-y-10">
+            <article>
+              <h2 className="font-900 italic uppercase text-clamp-3xl">
+                QUI EST ORPHE ?
+              </h2>
+              <p className="italic font-100 text-clamp-xs max-w-[50ch] mt-2">
+                ORPHE est un jeune artiste de la région parisienne, produit par
+                OB production. S'inspirant de plusieurs univers tel que la Pop
+                ou le rap, ORPHE vous propose de le découvrir sur plus de 20
+                titres. Son premier projet étant en préparation, vous pouvez le
+                suivre sur les réseaux sociaux ou regarder ces deux clips
+                vidéos.
+              </p>
+            </article>
+
+            <hr className="w-full h-1 bg-white" />
+
+            <div className="flex justify-evenly flex-wrap gap-6">
+              <a
+                href="https://www.youtube.com/channel/UCgmpOdwE6Zu0KFlHAnhRcYQ"
+                className="grid gap-2 place-items-center w-min text-[var(--red)]"
+              >
+                <span className="font-800 text-6xl">2</span>
+                <div className="flex items-center gap-x-2">
+                  <YouTubeSVG className="h-6 w-6" />
+                  <span className="whitespace-nowrap">Clips vidéos</span>
+                </div>
+              </a>
+
+              <p className="grid gap-2 place-items-center text-[var(--red)]">
+                <span className="font-800 text-6xl">+ 20</span>
+                <span>Titres</span>
+              </p>
+
+              <p className="grid gap-2 place-items-center text-[var(--red)]">
+                <span className="font-800 text-6xl">1</span>
+                <span>Projet à venir</span>
+              </p>
+            </div>
+
+            <hr className="w-full h-1 bg-white" />
+
+            <div className="flex gap-6 justify-evenly flex-wrap">
+              <a
+                className="bg-white text-black flex items-center gap-x-2 border-1 border-white px-4 py-2 rounded-2 w-min"
                 href="https://www.instagram.com/orphe350/"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Instagram Orphe"
               >
-                <InstagramSVG />
+                <span className="h-6 w-6 ">
+                  <InstagramSVG />
+                </span>
+
+                <span className="font-200">Instagram</span>
               </a>
 
               <a
-                className="text-white h-8 w-8"
+                className="bg-white text-black flex items-center gap-x-2 border-1 border-white px-4 py-2 rounded-2 w-min"
                 href="https://www.snapchat.com/add/badou-orlov"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Snapchat Orphe"
               >
-                <SnapChatSVG />
+                <span className="h-6 w-6 ">
+                  <SnapChatSVG />
+                </span>
+                <span className="font-200">Snapchat</span>
               </a>
 
               <a
-                className="text-white h-8 w-8"
+                className="bg-white text-black flex items-center gap-x-2 border-1 border-white px-4 py-2 rounded-2 w-min"
                 href="https://www.tiktok.com/@orphe350"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="TikTok Orphe"
               >
-                <TikTokSVG />
+                <span className="h-6 w-6 ">
+                  <TikTokSVG />
+                </span>
+
+                <span className="font-200">TikTok</span>
               </a>
-            </nav>
-          </article>
+            </div>
+          </div>
         </section>
 
-        <article className="grid gap-y-25 place-items-center text-2xl relative">
-          <span
-            aria-hidden
-            className="absolute w-[15vmax] h-[15vmax] text-white -top-10 -left-10 -rotate-15 -z-1"
-          >
-            <OrpheLyreSVG />
-          </span>
+        <Separator />
 
-          <p className="max-w-[40ch] text-center font-300 text-clamp-sm p-4 border-gradient">
-            En attendant son premier projet, découvrez
-            <span className="text-[var(--red)] font-700"> Orphe</span> à travers
-            sa NetTape
-            <span className="text-[var(--red)] font-700"> CCV</span>. Les
-            musiques sont disponibles en streaming ou en téléchargement
-            <span className="text-[var(--red)] font-700"> 100% gratuit</span>.
-          </p>
-
-          <span className="h-10 w-10 animate-bounce">
-            <ArrowDownSVG />
-          </span>
-        </article>
-
-        <section className="min-h-[100vh] flex flex-col justify-center items-center">
+        <section
+          id="player"
+          className="min-h-[100vh] flex flex-col justify-center items-center"
+        >
           <AudioPlayer songs={songs} user_likes={user_likes} />
         </section>
-
-        <footer className="py-3 flex items-center justify-center font-200 text-xs">
-          <small>ObProduction - Ob Publishing ©copyright 2022</small>
-        </footer>
       </main>
+      <footer className="py-3 flex items-center justify-center font-200 text-xs">
+        <small>ObProduction - Ob Publishing ©copyright 2022</small>
+      </footer>
     </>
   );
 }

@@ -37,13 +37,13 @@
 
 :root {
   --step-xs: clamp(1.24rem, calc(0.6rem + 0.86vw), 0.77rem);
-  --step-sm: clamp(1.55rem, calc(0.55rem + 1.33vw), 0.82rem);
+  --step-sm: clamp(1rem, calc(0.55rem + 1.33vw), 1.55rem);
   --step-md: clamp(0.88rem, calc(0.49rem + 1.93vw), 1.94rem);
   --step-lg: clamp(0.93rem, calc(0.39rem + 2.71vw), 2.42rem);
   --step-xl: clamp(1rem, calc(0.26rem + 3.69vw), 3.03rem);
   --step-2xl: clamp(1.06rem, calc(0.07rem + 4.95vw), 3.78rem);
-  --step-3xl: clamp(1.13rem, calc(-0.17rem + 6.54vw), 4.73rem);
-  --step-4xl: clamp(1.21rem, calc(-0.5rem + 8.55vw), 5.91rem);
+  --step-3xl: clamp(2.5rem, calc(-0.17rem + 6.54vw), 4.73rem);
+  --step-4xl: clamp(2.75rem, calc(-0.5rem + 8.55vw), 5.91rem);
 
   --radius-thumb: 20px;
   --color-scrollbar-thumb: hsla(0, 0%, 100%, 0.5);

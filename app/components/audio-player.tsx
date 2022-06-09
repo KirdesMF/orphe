@@ -130,7 +130,7 @@ export function AudioPlayer(props: AudioPlayerProps) {
 
         <div className="flex items-center justify-center gap-5">
           <motion.button
-            className="w-20 h-20 color-[var(--red)] rounded"
+            className="w-10 h-10 sm:w-20 sm:h-20 color-[var(--red)] rounded"
             onClick={handlePrevTrack}
             whileTap={{ scale: 0.8 }}
           >
@@ -154,7 +154,7 @@ export function AudioPlayer(props: AudioPlayerProps) {
               ) : (
                 <motion.span
                   key="play"
-                  className="w-25 h-25 block"
+                  className="w-15 h-15 sm:w-25 sm:h-25 block"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
@@ -169,7 +169,7 @@ export function AudioPlayer(props: AudioPlayerProps) {
 
           <motion.button
             whileTap={{ scale: 0.8 }}
-            className="w-20 h-20 color-[var(--red)]"
+            className="w-10 h-10 sm:w-20 sm:h-20 color-[var(--red)]"
             onClick={handleNextTrack}
           >
             <Icon.NextSVG />
