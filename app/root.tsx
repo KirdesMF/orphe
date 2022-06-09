@@ -11,6 +11,7 @@ import type { LinksFunction, MetaFunction } from '@remix-run/node';
 import resetStyles from './styles/reset.css';
 import mainStyles from './styles/main.css';
 import unocssStyles from './styles/unocss.css';
+import { Header } from './components/header';
 
 export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: resetStyles, as: 'style' },
@@ -73,6 +74,7 @@ export default function App() {
         <Links />
       </head>
       <body className="bg-[var(--black)] text-white font-roboto">
+        <Header />
         <Outlet />
         <ScrollRestoration />
         <Scripts />
