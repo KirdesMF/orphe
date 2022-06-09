@@ -13,6 +13,10 @@ import { useLoaderData } from '@remix-run/react';
 import type { Song } from '~/models/song';
 import type { LoaderFunction, ActionFunction } from '@remix-run/node';
 import {
+<<<<<<< HEAD
+=======
+  ArrowDownSVG,
+>>>>>>> 2c7c8fbfad15852d764aaf8685e479f23a996c2f
   HeadPhoneSVG,
   InstagramSVG,
   SnapChatSVG,
@@ -21,6 +25,10 @@ import {
 } from '~/components/icons';
 import { LinearGradientSVG } from '~/components/custom-svg';
 import { Separator } from '~/components/separator';
+<<<<<<< HEAD
+=======
+import { SocialMedias } from '~/components/social-media';
+>>>>>>> 2c7c8fbfad15852d764aaf8685e479f23a996c2f
 
 type Loader = {
   songs: Array<Song>;
@@ -120,11 +128,19 @@ export default function Index() {
 
         <Separator />
 
+<<<<<<< HEAD
         <section className="py-20">
           <div className="max-w-6xl mx-auto grid gap-y-10">
             <article>
               <h2 className="font-900 italic uppercase text-clamp-3xl">
                 ORPHE ?
+=======
+        <section className="py-40">
+          <div className="max-w-6xl mx-auto grid gap-y-10">
+            <article>
+              <h2 className="font-900 italic uppercase text-clamp-3xl">
+                QUI EST ORPHE ?
+>>>>>>> 2c7c8fbfad15852d764aaf8685e479f23a996c2f
               </h2>
               <p className="italic font-100 text-clamp-xs max-w-[50ch] mt-2">
                 ORPHE est un jeune artiste de la région parisienne, produit par
@@ -212,7 +228,11 @@ export default function Index() {
 
         <section
           id="player"
+<<<<<<< HEAD
           className="min-h-[100vh] flex flex-col justify-center items-center py-20"
+=======
+          className="min-h-[100vh] flex flex-col justify-center items-center"
+>>>>>>> 2c7c8fbfad15852d764aaf8685e479f23a996c2f
         >
           <AudioPlayer songs={songs} user_likes={user_likes} />
         </section>

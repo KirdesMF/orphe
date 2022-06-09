@@ -130,7 +130,11 @@ export function AudioPlayer(props: AudioPlayerProps) {
 
         <div className="flex items-center justify-center gap-5">
           <motion.button
+<<<<<<< HEAD
             className="w-15 h-15 sm:w-20 sm:h-20 color-[var(--red)] rounded"
+=======
+            className="w-10 h-10 sm:w-20 sm:h-20 color-[var(--red)] rounded"
+>>>>>>> 2c7c8fbfad15852d764aaf8685e479f23a996c2f
             onClick={handlePrevTrack}
             whileTap={{ scale: 0.8 }}
           >
