@@ -1,26 +1,21 @@
-import { getSongs, supabase } from '~/utils/supabase.server';
-import { commitDataSession, getDataSession } from '~/utils/cookie.server';
-import { AudioPlayer } from '~/components/audio-player';
-import {
-  CCVSVG,
-  OBProdSVG,
-  OrpheGreekSVG,
-  OrpheLyreSVG,
-} from '~/components/custom-svg';
-import { json } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
+import { getSongs, supabase } from "~/utils/supabase.server";
+import { commitDataSession, getDataSession } from "~/utils/cookie.server";
+import { AudioPlayer } from "~/components/audio-player";
 
-import type { Song } from '~/models/song';
-import type { LoaderFunction, ActionFunction } from '@remix-run/node';
+import { json } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
+
+import type { Song } from "~/models/song";
+import type { LoaderFunction, ActionFunction } from "@remix-run/node";
 import {
   HeadPhoneSVG,
   InstagramSVG,
   SnapChatSVG,
   TikTokSVG,
   YouTubeSVG,
-} from '~/components/icons';
-import { LinearGradientSVG } from '~/components/custom-svg';
-import { Separator } from '~/components/separator';
+} from "~/components/icons";
+import { LinearGradientSVG } from "~/components/custom-svg";
+import { Separator } from "~/components/separator";
 
 type Loader = {
   songs: Array<Song>;
@@ -29,13 +24,13 @@ type Loader = {
 
 export const loader: LoaderFunction = async ({ request }) => {
   const [session, songs] = await Promise.all([
-    getDataSession(request.headers.get('Cookie')),
+    getDataSession(request.headers.get("Cookie")),
     getSongs(),
   ]);
 
   return json({
     songs,
-    user_likes: session.get('user_likes') || [],
+    user_likes: session.get("user_likes") || [],
   });
 };
 
@@ -43,40 +38,40 @@ export const action: ActionFunction = async ({ request }) => {
   const form = await request.formData();
   const { _action, ...values } = Object.fromEntries(form);
 
-  if (_action === 'increment_listening') {
-    return await supabase.rpc('increment_listening', { row_id: values.id });
+  if (_action === "increment_listening") {
+    return await supabase.rpc("increment_listening", { row_id: values.id });
   }
 
-  if (_action === 'increment_download') {
-    return await supabase.rpc('increment_download', { row_id: values.id });
+  if (_action === "increment_download") {
+    return await supabase.rpc("increment_download", { row_id: values.id });
   }
 
-  if (_action === 'update_likes') {
+  if (_action === "update_likes") {
     const [session] = await Promise.all([
-      getDataSession(request.headers.get('Cookie')),
-      supabase.rpc('update_likes', {
+      getDataSession(request.headers.get("Cookie")),
+      supabase.rpc("update_likes", {
         row_id: values.id,
         like_count: values.like,
       }),
     ]);
 
     // if there is no cookie yet, create one
-    if (!session.has('user_likes')) session.set('user_likes', [values.id]);
+    if (!session.has("user_likes")) session.set("user_likes", [values.id]);
     else {
-      const user_likes = session.get('user_likes') as Array<string>;
+      const user_likes = session.get("user_likes") as Array<string>;
       if (user_likes.includes(values.id as string))
         session.set(
-          'user_likes',
+          "user_likes",
           user_likes.filter((id) => id !== values.id)
         );
-      else session.set('user_likes', [...user_likes, values.id]);
+      else session.set("user_likes", [...user_likes, values.id]);
     }
 
     return json(
       { song: values.id },
       {
         headers: {
-          'Set-Cookie': await commitDataSession(session),
+          "Set-Cookie": await commitDataSession(session),
         },
       }
     );
@@ -105,7 +100,7 @@ export default function Index() {
               </p>
               <a
                 href="#player"
-                className="flex items-center gap-x-2 bg-white text-black border-1 border-white px-4 py-2 rounded-2  w-min"
+                className="gradient-shadow flex items-center gap-x-2 bg-white text-black border-1 border-white px-4 py-2 rounded-2  w-min"
               >
                 <span className="h-6 w-6">
                   <HeadPhoneSVG />
